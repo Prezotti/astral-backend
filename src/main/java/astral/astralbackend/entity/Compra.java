@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -27,6 +29,14 @@ public class Compra {
     private String telefone;
 
     private String endereco;
+
+    @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL)
+    private List<ItemCompra> itens = new ArrayList<>();
+
+    public void adicionarItem(ItemCompra item){
+        item.setCompra(this);
+        this.itens.add(item);
+    }
 
     @Enumerated(EnumType.STRING)
     private EFormaPagamento formaPagamento;

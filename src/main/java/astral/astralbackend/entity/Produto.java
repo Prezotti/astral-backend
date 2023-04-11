@@ -35,7 +35,7 @@ public class Produto {
 
     private Boolean ativo;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "produtor_id")
     private Produtor produtor;
 

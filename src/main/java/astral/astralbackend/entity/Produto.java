@@ -24,6 +24,8 @@ public class Produto {
 
     private BigDecimal preco;
 
+    private int qtdEstoque;
+
     private String medida;
 
     private String imagem;

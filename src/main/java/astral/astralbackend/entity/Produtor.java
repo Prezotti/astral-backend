@@ -16,10 +16,17 @@ public class Produtor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String nome;
+
     private String telefone;
+
     private String email;
+
     private String senha;
+
+    private Boolean disponivel;
+
     private Boolean ativo;
 
 }

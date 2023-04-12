@@ -5,6 +5,7 @@ create table Produtor(
     telefone varchar(255) not null,
     email varchar(255) not null unique,
     senha varchar(255) not null,
+    disponivel tinyint not null,
     ativo tinyint not null,
 
     primary key(id)

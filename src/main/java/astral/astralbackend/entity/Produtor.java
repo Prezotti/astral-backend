@@ -1,10 +1,12 @@
 package astral.astralbackend.entity;
 
+import astral.astralbackend.dtos.produtor.CadastroDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @Getter
@@ -29,4 +31,12 @@ public class Produtor {
 
     private Boolean ativo;
 
+    public Produtor(CadastroDTO dados) {
+        this.nome = dados.nome();
+        this.telefone = dados.telefone();
+        this.email = dados.email();
+        this.senha = new BCryptPasswordEncoder().encode(dados.senha());
+        this.disponivel = true;
+        this.ativo = true;
+    }
 }

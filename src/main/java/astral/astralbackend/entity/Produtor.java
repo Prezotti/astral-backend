@@ -1,6 +1,6 @@
 package astral.astralbackend.entity;
 
-import astral.astralbackend.dtos.produtor.CadastroDTO;
+import astral.astralbackend.dtos.produtor.CadastroProdutorDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -31,7 +31,7 @@ public class Produtor {
 
     private Boolean ativo;
 
-    public Produtor(CadastroDTO dados) {
+    public Produtor(CadastroProdutorDTO dados) {
         this.nome = dados.nome();
         this.telefone = dados.telefone();
         this.email = dados.email();

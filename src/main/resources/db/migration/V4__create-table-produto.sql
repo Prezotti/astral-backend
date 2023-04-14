@@ -4,7 +4,7 @@ create table Produto (
         descricao varchar(255) not null,
         preco float unsigned not null,
         medida varchar(255),
-        qtdEstoque int not null,
+        qtd_estoque int not null,
         imagem varchar(255) not null,
         categoria varchar(255) not null,
         produtor_id bigint unsigned not null,

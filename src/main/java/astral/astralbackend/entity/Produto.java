@@ -1,16 +1,15 @@
 package astral.astralbackend.entity;
 
+import astral.astralbackend.dtos.produto.CadastroProdutoDTO;
 import astral.astralbackend.enums.ECategoria;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -24,7 +23,7 @@ public class Produto {
 
     private BigDecimal preco;
 
-    private int qtdEstoque;
+    private Long qtdEstoque;
 
     private String medida;
 
@@ -41,4 +40,7 @@ public class Produto {
     @JoinColumn(name = "produtor_id")
     private Produtor produtor;
 
+    public Produto(CadastroProdutoDTO dados) {
+
+    }
 }

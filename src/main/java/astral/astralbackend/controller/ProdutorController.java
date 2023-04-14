@@ -53,8 +53,7 @@ public class ProdutorController {
     @PutMapping
     @Transactional
     public ResponseEntity atualizarProdutor(@RequestBody @Valid AtualizaProdutorDTO dados){
-        var produtor = repository.getReferenceById(dados.id());
-        service.atualizarProdutor(dados);
+        var produtor = service.atualizarProdutor(dados);
 
 
         return ResponseEntity.ok(new DetalhamentoProdutorDTO(produtor));

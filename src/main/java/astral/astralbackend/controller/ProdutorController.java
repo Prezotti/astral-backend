@@ -1,6 +1,6 @@
 package astral.astralbackend.controller;
 
-import astral.astralbackend.dtos.produtor.CadastroDTO;
+import astral.astralbackend.dtos.produtor.CadastroProdutorDTO;
 import astral.astralbackend.dtos.produtor.DetalhamentoProdutorDTO;
 import astral.astralbackend.dtos.produtor.ListagemProdutorDTO;
 import astral.astralbackend.entity.Produtor;
@@ -23,7 +23,7 @@ public class ProdutorController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastrarProdutor(@RequestBody @Valid CadastroDTO dados, UriComponentsBuilder uriBuilder){
+    public ResponseEntity cadastrarProdutor(@RequestBody @Valid CadastroProdutorDTO dados, UriComponentsBuilder uriBuilder){
         var produtor = new Produtor(dados);
         repository.save(produtor);
 

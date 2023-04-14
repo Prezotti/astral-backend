@@ -1,10 +1,12 @@
 package astral.astralbackend.controller;
 
+import astral.astralbackend.dtos.produtor.AtualizaProdutorDTO;
 import astral.astralbackend.dtos.produtor.CadastroProdutorDTO;
 import astral.astralbackend.dtos.produtor.DetalhamentoProdutorDTO;
 import astral.astralbackend.dtos.produtor.ListagemProdutorDTO;
 import astral.astralbackend.entity.Produtor;
 import astral.astralbackend.repository.ProdutorRepository;
+import astral.astralbackend.service.ProdutorService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RestController
 @RequestMapping("produtor")
 public class ProdutorController {
+    @Autowired
+    private ProdutorService service;
     @Autowired
     private ProdutorRepository repository;
 
@@ -46,5 +50,12 @@ public class ProdutorController {
         return ResponseEntity.ok(listagem);
     }
 
+    @PutMapping
+    @Transactional
+    public ResponseEntity atualizarProdutor(@RequestBody @Valid AtualizaProdutorDTO dados){
+        var produtor = service.atualizarProdutor(dados);
 
+
+        return ResponseEntity.ok(new DetalhamentoProdutorDTO(produtor));
+    }
 }

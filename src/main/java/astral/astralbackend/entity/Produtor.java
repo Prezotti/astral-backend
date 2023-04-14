@@ -1,5 +1,6 @@
 package astral.astralbackend.entity;
 
+import astral.astralbackend.dtos.produtor.AtualizaProdutorDTO;
 import astral.astralbackend.dtos.produtor.CadastroProdutorDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -39,4 +40,20 @@ public class Produtor {
         this.disponivel = true;
         this.ativo = true;
     }
+
+    public void atualizarInformacoes(AtualizaProdutorDTO dados) {
+        if(dados.nome() != null){
+            this.nome = dados.nome();
+        }
+        if(dados.telefone() != null){
+            this.telefone = dados.telefone();
+        }
+        if(dados.email() != null){
+            this.email = dados.email();
+        }
+        if(dados.senha() != null){
+            this.senha = new BCryptPasswordEncoder().encode(dados.senha());
+        }
+    }
+
 }

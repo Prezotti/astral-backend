@@ -1,5 +1,6 @@
 package astral.astralbackend.controller;
 
+import astral.astralbackend.dtos.produtor.AtualizaProdutorDTO;
 import astral.astralbackend.dtos.produtor.CadastroProdutorDTO;
 import astral.astralbackend.dtos.produtor.DetalhamentoProdutorDTO;
 import astral.astralbackend.dtos.produtor.ListagemProdutorDTO;
@@ -46,5 +47,12 @@ public class ProdutorController {
         return ResponseEntity.ok(listagem);
     }
 
+    @PutMapping
+    @Transactional
+    public ResponseEntity atualizarProdutor(@RequestBody @Valid AtualizaProdutorDTO dados){
+        var produtor = repository.getReferenceById(dados.id());
+        produtor.atualizarInformacoes(dados);
 
+        return ResponseEntity.ok(new DetalhamentoProdutorDTO(produtor));
+    }
 }

@@ -55,4 +55,12 @@ public class ProdutorController {
 
         return ResponseEntity.ok(new DetalhamentoProdutorDTO(produtor));
     }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity excluitProdutor(@PathVariable Long id){
+        var produtor = repository.getReferenceById(id);
+        produtor.excluir();
+        return ResponseEntity.noContent().build();
+    }
 }

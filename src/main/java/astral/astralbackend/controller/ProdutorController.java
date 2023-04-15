@@ -58,4 +58,11 @@ public class ProdutorController {
 
         return ResponseEntity.ok(new DetalhamentoProdutorDTO(produtor));
     }
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity deletarProdutor(@PathVariable Long id){
+         service.deletarProdutor(id);
+
+        return ResponseEntity.noContent().build();
+    }
 }

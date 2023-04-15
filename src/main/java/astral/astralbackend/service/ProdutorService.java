@@ -24,4 +24,12 @@ public class ProdutorService {
 
         return produtor;
     }
+
+    public void deletarProdutor(Long id) {
+        if(!produtorRepository.existsById(id)){
+            throw new ValidacaoException("O id do produtor não existe!");
+        }
+        var produtor = produtorRepository.getReferenceById(id);
+        produtor.excluir();
+    }
 }

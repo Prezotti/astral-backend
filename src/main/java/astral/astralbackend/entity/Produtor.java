@@ -56,8 +56,5 @@ public class Produtor {
         }
     }
 
-    public void excluir() {
-        this.disponivel = false;
-        this.ativo = false;
-    }
+    public void excluir() {this.disponivel = false; this.ativo = false;}
 }

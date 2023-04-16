@@ -2,6 +2,9 @@ package astral.astralbackend.controller;
 
 import astral.astralbackend.dtos.produto.CadastroProdutoDTO;
 import astral.astralbackend.dtos.produto.DetalhamentoProdutoDTO;
+import astral.astralbackend.dtos.produto.ListagemProdutoDTO;
+import astral.astralbackend.entity.Produto;
+import astral.astralbackend.repository.ProdutoRepository;
 import astral.astralbackend.service.ProdutoService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -12,12 +15,18 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("produto")
 public class ProdutoController {
 
     @Autowired
     private ProdutoService service;
+
+    @Autowired
+    private ProdutoRepository repository;
 
     @PostMapping
     @Transactional
@@ -27,5 +36,13 @@ public class ProdutoController {
         var produto = service.cadastrar(produtoDTO, file);
         var uri = uriBuilder.path("/produto/{id}").buildAndExpand(produto.getId()).toUri();
         return ResponseEntity.created(uri).body(new DetalhamentoProdutoDTO(produto));
+    }
+    @GetMapping
+    public ResponseEntity<List<ListagemProdutoDTO>> listarProdutosAtivos(){
+        List<Produto> produtos = repository.findAllByAtivoTrue();
+        List<ListagemProdutoDTO> listagem = produtos.stream()
+                .map(ListagemProdutoDTO::new)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(listagem);
     }
 }

@@ -7,6 +7,7 @@ O objetivo deste projeto é promover a agricultura familiar/orgânica do municí
 * Java;
 * Spring Boot;
 * JPA;
+* AWS;
 
 ## :handshake: Colaboradores
 <table>

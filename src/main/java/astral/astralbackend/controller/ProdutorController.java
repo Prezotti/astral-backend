@@ -42,8 +42,8 @@ public class ProdutorController {
     public ResponseEntity<List<ListagemProdutorDTO>> listarProdutorAtivoEDisponivel(
             @RequestParam(name = "disponivel", required = false) Boolean disponivel
     ){
-        var listagem = service.listarProdutor(disponivel);
-
+        var produtor = service.listarProdutor(disponivel);
+        var listagem = produtor.stream().map(ListagemProdutorDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok(listagem);
     }
 

@@ -43,4 +43,10 @@ public class Produto {
     public Produto(CadastroProdutoDTO dados) {
 
     }
+
+    public void habilitarDesabilitarProduto() {
+        System.out.println(this.disponivel);
+        this.disponivel = !(this.disponivel);
+        System.out.println(this.disponivel);
+    }
 }

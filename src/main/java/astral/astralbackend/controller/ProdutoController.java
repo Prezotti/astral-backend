@@ -40,7 +40,7 @@ public class ProdutoController {
 
     @GetMapping
     public ResponseEntity<List<ListagemProdutoDTO>> listarProdutosAtivos() {
-        List<Produto> produtos = repository.findAllByAtivoTrue();
+        List<Produto> produtos = repository.findAllByAtivoTrueAndDisponivelTrue();
         List<ListagemProdutoDTO> listagem = produtos.stream()
                 .map(ListagemProdutoDTO::new)
                 .collect(Collectors.toList());
@@ -49,7 +49,7 @@ public class ProdutoController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<DetalhamentoProdutoDTO> habilitarDesabilitarProduto(@PathVariable Long id){
+    public ResponseEntity<DetalhamentoProdutoDTO> habilitarDesabilitarProduto(@PathVariable Long id) {
         Produto produto = service.habilitarDesabilitarProduto(id);
         return ResponseEntity.ok(new DetalhamentoProdutoDTO(produto));
     }

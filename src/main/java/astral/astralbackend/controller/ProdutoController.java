@@ -37,12 +37,21 @@ public class ProdutoController {
         var uri = uriBuilder.path("/produto/{id}").buildAndExpand(produto.getId()).toUri();
         return ResponseEntity.created(uri).body(new DetalhamentoProdutoDTO(produto));
     }
+
     @GetMapping
-    public ResponseEntity<List<ListagemProdutoDTO>> listarProdutosAtivos(){
+    public ResponseEntity<List<ListagemProdutoDTO>> listarProdutosAtivos() {
         List<Produto> produtos = repository.findAllByAtivoTrue();
         List<ListagemProdutoDTO> listagem = produtos.stream()
                 .map(ListagemProdutoDTO::new)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(listagem);
     }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<DetalhamentoProdutoDTO> habilitarDesabilitarProduto(@PathVariable Long id){
+        Produto produto = service.habilitarDesabilitarProduto(id);
+        return ResponseEntity.ok(new DetalhamentoProdutoDTO(produto));
+    }
+
 }

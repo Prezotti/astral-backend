@@ -17,6 +17,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("produtor")
 public class ProdutorController {
@@ -36,17 +39,11 @@ public class ProdutorController {
         return ResponseEntity.created(uri).body(new DetalhamentoProdutorDTO(produtor));
     }
     @GetMapping
-    public ResponseEntity<Page<ListagemProdutorDTO>> listarProdutorAtivoEDisponivel(
-            @RequestParam(name = "disponivel", required = false) Boolean disponivel,
-            @PageableDefault(size = 10) Pageable page
+    public ResponseEntity<List<ListagemProdutorDTO>> listarProdutorAtivoEDisponivel(
+            @RequestParam(name = "disponivel", required = false) Boolean disponivel
     ){
-        Page<Produtor> produtores;
-        if (disponivel != null) {
-            produtores = repository.findByAtivoTrueAndDisponivel(page, disponivel);
-        } else {
-            produtores = repository.findAllByAtivoTrue(page);
-        }
-        var listagem = produtores.map(ListagemProdutorDTO::new);
+        var listagem = service.listarProdutor(disponivel);
+
         return ResponseEntity.ok(listagem);
     }
 

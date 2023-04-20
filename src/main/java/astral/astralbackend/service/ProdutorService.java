@@ -2,6 +2,7 @@ package astral.astralbackend.service;
 
 import astral.astralbackend.dtos.produtor.AtualizaProdutorDTO;
 import astral.astralbackend.entity.Produtor;
+import astral.astralbackend.exception.IdNaoEncontradoException;
 import astral.astralbackend.exception.ValidacaoException;
 import astral.astralbackend.repository.ProdutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class ProdutorService {
 
     public Produtor atualizarProdutor(AtualizaProdutorDTO dados){
         if(!produtorRepository.existsById(dados.id())){
-            throw new ValidacaoException("O id do produtor não existe!");
+            throw new IdNaoEncontradoException("O id do produtor não existe!");
         }
 
         var produtor = produtorRepository.getReferenceById(dados.id());
@@ -28,7 +29,7 @@ public class ProdutorService {
 
     public void deletarProdutor(Long id) {
         if(!produtorRepository.existsById(id)){
-            throw new ValidacaoException("O id do produtor não existe!");
+            throw new IdNaoEncontradoException("O id do produtor não existe!");
         }
         var produtor = produtorRepository.getReferenceById(id);
         produtor.excluir();

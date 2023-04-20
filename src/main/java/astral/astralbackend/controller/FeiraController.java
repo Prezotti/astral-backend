@@ -1,6 +1,5 @@
 package astral.astralbackend.controller;
 
-import astral.astralbackend.dtos.feira.CadastroFeiraDTO;
 import astral.astralbackend.dtos.feira.DetalhamentoFeiraDTO;
 import astral.astralbackend.dtos.produtor.DetalhamentoProdutorDTO;
 import astral.astralbackend.entity.Feira;
@@ -23,8 +22,8 @@ public class FeiraController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastrarFeira(@RequestBody @Valid CadastroFeiraDTO dados, UriComponentsBuilder uriBuilder){
-        var feira = new Feira(dados);
+    public ResponseEntity cadastrarFeira(UriComponentsBuilder uriBuilder) {
+        var feira = new Feira();
         repository.save(feira);
 
         var uri = uriBuilder.path("/feira/{id}").buildAndExpand(feira.getId()).toUri();

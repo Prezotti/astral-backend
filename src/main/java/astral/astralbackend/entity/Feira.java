@@ -1,6 +1,5 @@
 package astral.astralbackend.entity;
 
-import astral.astralbackend.dtos.feira.CadastroFeiraDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -12,7 +11,6 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Feira {
@@ -27,9 +25,9 @@ public class Feira {
     
     private BigDecimal valorTotal;
 
-    public Feira(CadastroFeiraDTO dados) {
+    public Feira() {
         this.aberta = true;
         this.dataAbertura = LocalDateTime.now();
-        this.valorTotal = dados.valorTotal();
+        this.valorTotal = BigDecimal.ZERO;
     }
 }

@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Feira {
@@ -26,4 +25,9 @@ public class Feira {
     
     private BigDecimal valorTotal;
 
+    public Feira() {
+        this.aberta = true;
+        this.dataAbertura = LocalDateTime.now();
+        this.valorTotal = BigDecimal.ZERO;
+    }
 }

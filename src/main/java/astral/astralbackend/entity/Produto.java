@@ -45,8 +45,10 @@ public class Produto {
     }
 
     public void habilitarDesabilitarProduto() {
-        System.out.println(this.disponivel);
         this.disponivel = !(this.disponivel);
-        System.out.println(this.disponivel);
+    }
+
+    public void excluir() {
+        this.ativo = false;
     }
 }

@@ -1,7 +1,6 @@
 package astral.astralbackend.service;
 
 import astral.astralbackend.dtos.produto.CadastroProdutoDTO;
-import astral.astralbackend.dtos.produto.DetalhamentoProdutoDTO;
 import astral.astralbackend.entity.Produto;
 import astral.astralbackend.entity.Produtor;
 import astral.astralbackend.exception.IdNaoEncontradoException;
@@ -38,13 +37,22 @@ public class ProdutoService {
 
         String imagem = storageService.uploadImagemProduto(file, produtor);
 
-        Produto produto = new Produto(null, dados.descricao(), dados.preco(), dados.qtdEstoque(), dados.medida(), imagem, dados.categoria(), true, true, produtor );
+        Produto produto = new Produto(null, dados.descricao(), dados.preco(), dados.qtdEstoque(), dados.medida(), imagem, dados.categoria(), true, true, produtor);
 
 
         produtoRepository.save(produto);
 
         return produto;
 
+    }
+
+    public void deletarProduto(Long id){
+        if(!produtoRepository.existsById(id)){
+            throw new IdNaoEncontradoException("O id do produto não existe!");
+        }
+        var produto = produtoRepository.getReferenceById(id);
+        storageService.deleteImagemProduto(produto.getImagem());
+        produto.excluir();
     }
 
 

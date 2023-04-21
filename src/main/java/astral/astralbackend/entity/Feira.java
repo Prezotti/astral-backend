@@ -30,4 +30,8 @@ public class Feira {
         this.dataAbertura = LocalDateTime.now();
         this.valorTotal = BigDecimal.ZERO;
     }
+
+    public void habilitarDesabilitarFeira() {
+        this.aberta = false;
+    }
 }

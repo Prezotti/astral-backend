@@ -43,6 +43,7 @@ public class FeiraController {
         return ResponseEntity.ok(listagem);
     }
 
+<<<<<<< Updated upstream
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<DetalhamentoFeiraDTO> habilitarDesabilitarFeira(@PathVariable Long id) {
@@ -50,5 +51,13 @@ public class FeiraController {
         return ResponseEntity.noContent().build();
     }
 
+=======
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<DetalhamentoFeiraDTO> habilitarDesabilitarFeira(@PathVariable Long id) {
+        Feira feira = service.habilitarDesabilitarFeira(id);
+        return ResponseEntity.ok(new DetalhamentoFeiraDTO(feira));
+    }
+>>>>>>> Stashed changes
 
 }

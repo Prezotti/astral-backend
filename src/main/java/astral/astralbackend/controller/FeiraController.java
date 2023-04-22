@@ -3,6 +3,7 @@ package astral.astralbackend.controller;
 import astral.astralbackend.dtos.feira.DetalhamentoFeiraDTO;
 import astral.astralbackend.entity.Feira;
 import astral.astralbackend.repository.FeiraRepository;
+import astral.astralbackend.service.FeiraService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,9 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("feira")
 public class FeiraController {
+
+    @Autowired
+    private FeiraService service;
     @Autowired
     private FeiraRepository repository;
 
@@ -39,5 +43,11 @@ public class FeiraController {
         return ResponseEntity.ok(listagem);
     }
 
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<DetalhamentoFeiraDTO> habilitarDesabilitarFeira(@PathVariable Long id) {
+        Feira feira = service.habilitarDesabilitarFeira(id);
+        return ResponseEntity.ok(new DetalhamentoFeiraDTO(feira));
+    }
 
 }

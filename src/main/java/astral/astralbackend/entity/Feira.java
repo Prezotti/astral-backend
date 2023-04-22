@@ -30,4 +30,13 @@ public class Feira {
         this.dataAbertura = LocalDateTime.now();
         this.valorTotal = BigDecimal.ZERO;
     }
+
+<<<<<<< Updated upstream
+    public void habilitarDesabilitarFeira() {
+        this.aberta = false;
+=======
+    public void habilitarDesabilitarFeira(){
+        this.aberta = (!this.aberta);
+>>>>>>> Stashed changes
+    }
 }

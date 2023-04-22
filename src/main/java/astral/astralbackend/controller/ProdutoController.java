@@ -1,9 +1,11 @@
 package astral.astralbackend.controller;
 
+import astral.astralbackend.dtos.produto.AtualizaProdutoDTO;
 import astral.astralbackend.dtos.produto.CadastroProdutoDTO;
 import astral.astralbackend.dtos.produto.DetalhamentoProdutoDTO;
 import astral.astralbackend.dtos.produto.ListagemProdutoDTO;
 import astral.astralbackend.entity.Produto;
+import astral.astralbackend.exception.IdNaoEncontradoException;
 import astral.astralbackend.repository.ProdutoRepository;
 import astral.astralbackend.service.ProdutoService;
 import jakarta.transaction.Transactional;
@@ -30,10 +32,10 @@ public class ProdutoController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastrarProduto(@RequestPart("dados") @Valid CadastroProdutoDTO produtoDTO,
+    public ResponseEntity cadastrarProduto(@RequestPart("dados") @Valid CadastroProdutoDTO dados,
                                            @RequestPart("file") @NotNull MultipartFile file,
                                            UriComponentsBuilder uriBuilder) {
-        var produto = service.cadastrar(produtoDTO, file);
+        var produto = service.cadastrar(dados, file);
         var uri = uriBuilder.path("/produto/{id}").buildAndExpand(produto.getId()).toUri();
         return ResponseEntity.created(uri).body(new DetalhamentoProdutoDTO(produto));
     }
@@ -60,6 +62,14 @@ public class ProdutoController {
         service.deletarProduto(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity<DetalhamentoProdutoDTO> atualizarProduto(@RequestPart("dados") @Valid AtualizaProdutoDTO dados,
+                                                                   @RequestParam(required = false) @RequestPart("file") MultipartFile file){
+        var produto = service.atualizarProduto(dados, file);
+        return ResponseEntity.ok(new DetalhamentoProdutoDTO(produto));
     }
 
 

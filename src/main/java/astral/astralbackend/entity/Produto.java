@@ -1,9 +1,11 @@
 package astral.astralbackend.entity;
 
+import astral.astralbackend.dtos.produto.AtualizaProdutoDTO;
 import astral.astralbackend.dtos.produto.CadastroProdutoDTO;
 import astral.astralbackend.enums.ECategoria;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.math.BigDecimal;
 
@@ -50,5 +52,23 @@ public class Produto {
 
     public void excluir() {
         this.ativo = false;
+    }
+
+    public void atualizarInformacoes(AtualizaProdutoDTO dados) {
+        if(dados.descricao() != null){
+            this.descricao = dados.descricao();
+        }
+        if(dados.preco() != null){
+            this.preco = dados.preco();
+        }
+        if(dados.qtdEstoque() != null){
+            this.qtdEstoque = dados.qtdEstoque();
+        }
+        if(dados.medida() != null){
+            this.medida = dados.medida();
+        }
+        if(dados.categoria() != null){
+            this.categoria = dados.categoria();
+        }
     }
 }

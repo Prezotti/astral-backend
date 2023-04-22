@@ -1,7 +1,7 @@
 package astral.astralbackend.service;
 
+import astral.astralbackend.dtos.produto.AtualizaProdutoDTO;
 import astral.astralbackend.dtos.produto.CadastroProdutoDTO;
-import astral.astralbackend.dtos.produto.DetalhamentoProdutoDTO;
 import astral.astralbackend.entity.Produto;
 import astral.astralbackend.entity.Produtor;
 import astral.astralbackend.exception.IdNaoEncontradoException;
@@ -32,19 +32,35 @@ public class ProdutoService {
         }
         Produtor produtor = produtorRepository.getReferenceById(dados.produtorId());
 
-        if (!file.getContentType().equals("image/jpeg") && !file.getContentType().equals("image/png")) {
+        if(!ehImagem(file)){
             throw new ValidacaoException("O arquivo deve ser uma imagem JPEG ou PNG");
         }
 
         String imagem = storageService.uploadImagemProduto(file, produtor);
 
-        Produto produto = new Produto(null, dados.descricao(), dados.preco(), dados.qtdEstoque(), dados.medida(), imagem, dados.categoria(), true, true, produtor );
+        Produto produto = new Produto(null, dados.descricao(), dados.preco(), dados.qtdEstoque(), dados.medida(), imagem, dados.categoria(), true, true, produtor);
 
 
         produtoRepository.save(produto);
 
         return produto;
 
+    }
+
+    private boolean ehImagem(MultipartFile file) {
+        if (!file.getContentType().equals("image/jpeg") && !file.getContentType().equals("image/png")) {
+            return false;
+        }
+        return true;
+    }
+
+    public void deletarProduto(Long id){
+        if(!produtoRepository.existsById(id)){
+            throw new IdNaoEncontradoException("O id do produto não existe!");
+        }
+        var produto = produtoRepository.getReferenceById(id);
+        storageService.deleteImagemProduto(produto.getImagem());
+        produto.excluir();
     }
 
 
@@ -54,6 +70,28 @@ public class ProdutoService {
         }
         Produto produto = produtoRepository.getReferenceById(id);
         produto.habilitarDesabilitarProduto();
+
+        return produto;
+    }
+
+    public Produto atualizarProduto(AtualizaProdutoDTO dados, MultipartFile file) {
+        if(!produtoRepository.existsById(dados.id())){
+            throw new IdNaoEncontradoException("O id do produto não existe!");
+        }
+
+        var produto = produtoRepository.getReferenceById(dados.id());
+        String imagem = produto.getImagem();
+
+        if(file != null){
+            if(!ehImagem(file)) {
+                throw new ValidacaoException("O arquivo deve ser uma imagem JPEG ou PNG");
+            }
+            storageService.deleteImagemProduto(produto.getImagem());
+            imagem = storageService.uploadImagemProduto(file, produto.getProdutor());
+        }
+
+        produto.atualizarInformacoes(dados);
+        produto.setImagem(imagem);
 
         return produto;
     }

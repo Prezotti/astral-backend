@@ -10,9 +10,6 @@ import astral.astralbackend.service.ProdutorService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -23,14 +20,16 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("produtor")
 public class ProdutorController {
+
     @Autowired
     private ProdutorService service;
+
     @Autowired
     private ProdutorRepository repository;
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastrarProdutor(@RequestBody @Valid CadastroProdutorDTO dados, UriComponentsBuilder uriBuilder){
+    public ResponseEntity cadastrarProdutor(@RequestBody @Valid CadastroProdutorDTO dados, UriComponentsBuilder uriBuilder) {
         var produtor = new Produtor(dados);
         repository.save(produtor);
 
@@ -38,10 +37,11 @@ public class ProdutorController {
 
         return ResponseEntity.created(uri).body(new DetalhamentoProdutorDTO(produtor));
     }
+
     @GetMapping
     public ResponseEntity<List<ListagemProdutorDTO>> listarProdutorAtivoEDisponivel(
             @RequestParam(name = "disponivel", required = false) Boolean disponivel
-    ){
+    ) {
         var produtor = service.listarProdutor(disponivel);
         var listagem = produtor.stream().map(ListagemProdutorDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok(listagem);
@@ -49,16 +49,17 @@ public class ProdutorController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity atualizarProdutor(@RequestBody @Valid AtualizaProdutorDTO dados){
+    public ResponseEntity atualizarProdutor(@RequestBody @Valid AtualizaProdutorDTO dados) {
         var produtor = service.atualizarProdutor(dados);
 
 
         return ResponseEntity.ok(new DetalhamentoProdutorDTO(produtor));
     }
+
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity deletarProdutor(@PathVariable Long id){
-         service.deletarProdutor(id);
+    public ResponseEntity deletarProdutor(@PathVariable Long id) {
+        service.deletarProdutor(id);
 
         return ResponseEntity.noContent().build();
     }

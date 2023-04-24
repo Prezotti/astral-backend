@@ -37,6 +37,7 @@ public class FeiraController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_PRODUTOR')")
     public ResponseEntity<List<DetalhamentoFeiraDTO>> listarFeiras() {
         List<Feira> feiras = repository.findAll();
         List<DetalhamentoFeiraDTO> listagem = feiras.stream()

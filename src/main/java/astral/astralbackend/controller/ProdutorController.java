@@ -51,6 +51,7 @@ public class ProdutorController {
 
     @PutMapping
     @Transactional
+    @PreAuthorize("hasRole('ROLE_PRODUTOR')")
     public ResponseEntity atualizarProdutor(@RequestBody @Valid AtualizaProdutorDTO dados) {
         var produtor = service.atualizarProdutor(dados);
 

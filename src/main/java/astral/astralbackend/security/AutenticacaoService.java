@@ -1,4 +1,4 @@
-package astral.astralbackend.service;
+package astral.astralbackend.security;
 
 import astral.astralbackend.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;

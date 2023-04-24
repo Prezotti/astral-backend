@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -31,6 +32,7 @@ public class ProdutoController {
     private ProdutoRepository repository;
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_PRODUTOR')")
     @Transactional
     public ResponseEntity cadastrarProduto(@RequestPart("dados") @Valid CadastroProdutoDTO dados,
                                            @RequestPart("file") @NotNull MultipartFile file,
@@ -50,6 +52,7 @@ public class ProdutoController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_PRODUTOR')")
     @Transactional
     public ResponseEntity<DetalhamentoProdutoDTO> habilitarDesabilitarProduto(@PathVariable Long id) {
         Produto produto = service.habilitarDesabilitarProduto(id);
@@ -57,6 +60,7 @@ public class ProdutoController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_PRODUTOR')")
     @Transactional
     public ResponseEntity deletarProdutor(@PathVariable Long id) {
         service.deletarProduto(id);
@@ -65,6 +69,7 @@ public class ProdutoController {
     }
 
     @PutMapping
+    @PreAuthorize("hasRole('ROLE_PRODUTOR')")
     @Transactional
     public ResponseEntity<DetalhamentoProdutoDTO> atualizarProduto(@RequestPart("dados") @Valid AtualizaProdutoDTO dados,
                                                                    @RequestParam(required = false) @RequestPart("file") MultipartFile file){

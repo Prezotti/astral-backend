@@ -1,6 +1,7 @@
 package astral.astralbackend.controller;
 
-import astral.astralbackend.dtos.produtor.DadosAutenticacaoProdutor;
+import astral.astralbackend.dtos.produtor.DadosAutenticacao;
+import astral.astralbackend.entity.Administrador;
 import astral.astralbackend.entity.Produtor;
 import astral.astralbackend.security.DadosTokenJWT;
 import astral.astralbackend.security.TokenService;
@@ -25,10 +26,24 @@ public class AutenticacaoController {
     private TokenService tokenService;
 
     @PostMapping("/produtor")
-    public ResponseEntity efetuarLoginProdutor(@RequestBody @Valid DadosAutenticacaoProdutor dados){
+    public ResponseEntity efetuarLoginProdutor(@RequestBody @Valid DadosAutenticacao dados){
         var AuthenticationToken = new UsernamePasswordAuthenticationToken(dados.email(), dados.senha());
+        System.out.println("Criou o authentication token");
         var authentication = manager.authenticate(AuthenticationToken);
-        var tokenJWT = tokenService.gerarToken((Produtor) authentication.getPrincipal());
+        System.out.println("Autenticou");
+        var tokenJWT = tokenService.gerarTokenProdutor((Produtor) authentication.getPrincipal());
+        System.out.println("Criou o  token");
+        return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
+    }
+
+    @PostMapping("/administrador")
+    public ResponseEntity efetuarLoginAdministrador(@RequestBody @Valid DadosAutenticacao dados){
+        var AuthenticationToken = new UsernamePasswordAuthenticationToken(dados.email(), dados.senha());
+        System.out.println("Criou o authentication token");
+        var authentication = manager.authenticate(AuthenticationToken);
+        System.out.println("Autenticou");
+        var tokenJWT = tokenService.gerarTokenAdministrador((Administrador) authentication.getPrincipal());
+        System.out.println("Criou o  token");
         return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
     }
 

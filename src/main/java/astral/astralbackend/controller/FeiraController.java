@@ -7,6 +7,7 @@ import astral.astralbackend.service.FeiraService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -24,6 +25,7 @@ public class FeiraController {
     private FeiraRepository repository;
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Transactional
     public ResponseEntity cadastrarFeira(UriComponentsBuilder uriBuilder) {
         var feira = new Feira();
@@ -44,6 +46,7 @@ public class FeiraController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Transactional
     public ResponseEntity<DetalhamentoFeiraDTO> habilitarDesabilitarFeira(@PathVariable Long id) {
         Feira feira = service.habilitarDesabilitarFeira(id);

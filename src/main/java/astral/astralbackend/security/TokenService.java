@@ -1,5 +1,6 @@
 package astral.astralbackend.security;
 
+import astral.astralbackend.entity.Administrador;
 import astral.astralbackend.entity.Produtor;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -32,7 +33,7 @@ public class TokenService {
         }
     }
 
-/*    public String gerarTokenAdministrador(Administrador administrador) {
+    public String gerarTokenAdministrador(Administrador administrador) {
         try {
             var algoritmo = Algorithm.HMAC256(secret);
             return JWT.create()
@@ -44,7 +45,7 @@ public class TokenService {
         } catch (JWTCreationException exception) {
             throw new RuntimeException("Erro ao gerar o token JWT: ", exception);
         }
-    }*/
+    }
 
     public String getSubject(String token){
         try {

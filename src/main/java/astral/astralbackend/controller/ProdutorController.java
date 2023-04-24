@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -28,6 +29,7 @@ public class ProdutorController {
     private ProdutorRepository repository;
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Transactional
     public ResponseEntity cadastrarProdutor(@RequestBody @Valid CadastroProdutorDTO dados, UriComponentsBuilder uriBuilder) {
         var produtor = new Produtor(dados);
@@ -57,6 +59,7 @@ public class ProdutorController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Transactional
     public ResponseEntity deletarProdutor(@PathVariable Long id) {
         service.deletarProdutor(id);

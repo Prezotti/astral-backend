@@ -1,6 +1,7 @@
 package astral.astralbackend.controller;
 
 import astral.astralbackend.dtos.usuario.DadosAutenticacao;
+import astral.astralbackend.entity.Administrador;
 import astral.astralbackend.entity.Produtor;
 import astral.astralbackend.security.DadosTokenJWT;
 import astral.astralbackend.security.TokenService;
@@ -30,6 +31,14 @@ public class AutenticacaoController {
         var AuthenticationToken = new UsernamePasswordAuthenticationToken(dados.email(), dados.senha());
         var authentication = manager.authenticate(AuthenticationToken);
         var tokenJWT = tokenService.gerarTokenProdutor((Produtor) authentication.getPrincipal());
+        return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
+    }
+
+    @PostMapping("/administrador")
+    public ResponseEntity efetuarLoginAdministrador(@RequestBody @Valid DadosAutenticacao dados) {
+        var AuthenticationToken = new UsernamePasswordAuthenticationToken(dados.email(), dados.senha());
+        var authentication = manager.authenticate(AuthenticationToken);
+        var tokenJWT = tokenService.gerarTokenAdministrador((Administrador) authentication.getPrincipal());
         return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
     }
 

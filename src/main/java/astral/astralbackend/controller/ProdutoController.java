@@ -5,7 +5,6 @@ import astral.astralbackend.dtos.produto.CadastroProdutoDTO;
 import astral.astralbackend.dtos.produto.DetalhamentoProdutoDTO;
 import astral.astralbackend.dtos.produto.ListagemProdutoDTO;
 import astral.astralbackend.entity.Produto;
-import astral.astralbackend.exception.IdNaoEncontradoException;
 import astral.astralbackend.repository.ProdutoRepository;
 import astral.astralbackend.service.ProdutoService;
 import jakarta.transaction.Transactional;
@@ -72,7 +71,7 @@ public class ProdutoController {
     @PreAuthorize("hasRole('ROLE_PRODUTOR')")
     @Transactional
     public ResponseEntity<DetalhamentoProdutoDTO> atualizarProduto(@RequestPart("dados") @Valid AtualizaProdutoDTO dados,
-                                                                   @RequestParam(required = false) @RequestPart("file") MultipartFile file){
+                                                                   @RequestParam(required = false) @RequestPart("file") MultipartFile file) {
         var produto = service.atualizarProduto(dados, file);
         return ResponseEntity.ok(new DetalhamentoProdutoDTO(produto));
     }

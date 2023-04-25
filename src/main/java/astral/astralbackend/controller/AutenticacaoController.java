@@ -1,7 +1,7 @@
 package astral.astralbackend.controller;
 
-import astral.astralbackend.dtos.produtor.DadosAutenticacaoProdutor;
-import astral.astralbackend.entity.Produtor;
+import astral.astralbackend.dtos.usuario.DadosAutenticacao;
+import astral.astralbackend.entity.Usuario;
 import astral.astralbackend.security.DadosTokenJWT;
 import astral.astralbackend.security.TokenService;
 import jakarta.validation.Valid;
@@ -21,14 +21,18 @@ public class AutenticacaoController {
     @Autowired
     private AuthenticationManager manager;
 
+
     @Autowired
     private TokenService tokenService;
 
-    @PostMapping("/produtor")
-    public ResponseEntity efetuarLoginProdutor(@RequestBody @Valid DadosAutenticacaoProdutor dados){
+    @PostMapping
+    public ResponseEntity efetuarLogin(@RequestBody @Valid DadosAutenticacao dados) {
         var AuthenticationToken = new UsernamePasswordAuthenticationToken(dados.email(), dados.senha());
+        System.out.println(AuthenticationToken);
         var authentication = manager.authenticate(AuthenticationToken);
-        var tokenJWT = tokenService.gerarToken((Produtor) authentication.getPrincipal());
+        System.out.println(authentication);
+        var tokenJWT = tokenService.gerarToken((Usuario) authentication.getPrincipal());
+        System.out.println(tokenJWT);
         return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
     }
 

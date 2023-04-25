@@ -1,6 +1,8 @@
 package astral.astralbackend.security;
 
+import astral.astralbackend.repository.AdministradorRepository;
 import astral.astralbackend.repository.ProdutorRepository;
+import astral.astralbackend.repository.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,16 +24,21 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
     private ProdutorRepository produtorRepository;
 
+    @Autowired
+    private AdministradorRepository administradorRepository;
+
+    @Autowired
+    UsuarioRepository usuarioRepository;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var tokenJWT = recuperarToken(request);
         if (tokenJWT != null) {
             var subject = tokenService.getSubject(tokenJWT);
-            var produtor = produtorRepository.findByEmail(subject);
-            var authentication = new UsernamePasswordAuthenticationToken(produtor, null, produtor.getAuthorities());
+            var usuario = usuarioRepository.findByEmail(subject);
+            var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-
         filterChain.doFilter(request, response);
     }
 

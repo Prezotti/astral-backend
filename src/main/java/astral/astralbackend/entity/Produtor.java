@@ -19,30 +19,21 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "id")
-public class Produtor implements UserDetails {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@EqualsAndHashCode(callSuper = true)
+public class Produtor extends Usuario {
 
     private String nome;
 
     private String telefone;
-
-    private String email;
-
-    private String senha;
 
     private Boolean disponivel;
 
     private Boolean ativo;
 
     public Produtor(CadastroProdutorDTO dados) {
+        super(dados.email(), dados.senha());
         this.nome = dados.nome();
         this.telefone = dados.telefone();
-        this.email = dados.email();
-        this.senha = new BCryptPasswordEncoder().encode(dados.senha());
         this.disponivel = true;
         this.ativo = true;
     }
@@ -55,10 +46,10 @@ public class Produtor implements UserDetails {
             this.telefone = dados.telefone();
         }
         if(dados.email() != null){
-            this.email = dados.email();
+            this.setEmail(dados.email());
         }
         if(dados.senha() != null){
-            this.senha = new BCryptPasswordEncoder().encode(dados.senha());
+            this.setSenha(dados.senha());
         }
     }
 
@@ -69,33 +60,4 @@ public class Produtor implements UserDetails {
         return List.of(new SimpleGrantedAuthority("ROLE_PRODUTOR"));
     }
 
-    @Override
-    public String getPassword() {
-        return senha;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

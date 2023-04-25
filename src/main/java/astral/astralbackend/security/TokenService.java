@@ -1,6 +1,6 @@
 package astral.astralbackend.security;
 
-import astral.astralbackend.entity.Produtor;
+import astral.astralbackend.entity.Usuario;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Date;
 
 @Service
 public class TokenService {
@@ -19,20 +18,7 @@ public class TokenService {
     @Value("{security.token.secret}")
     private String secret;
 
-    public String gerarToken(Produtor produtor){
-        try {
-            var algoritimo = Algorithm.HMAC256(secret);
-            return JWT.create()
-                    .withIssuer("ASTRAL")
-                    .withSubject(produtor.getEmail())
-                    .withExpiresAt(dataExpiracao())
-                    .sign(algoritimo);
-        } catch (JWTCreationException exception){
-           throw new RuntimeException("Erro ao gerar o toke JWT: ", exception);
-        }
-    }
-
-    public String getSubject(String token){
+    public String getSubject(String token) {
         try {
             var algoritimo = Algorithm.HMAC256(secret);
             return JWT.require(algoritimo)
@@ -40,7 +26,7 @@ public class TokenService {
                     .build()
                     .verify(token)
                     .getSubject();
-        } catch (JWTVerificationException exception){
+        } catch (JWTVerificationException exception) {
             throw new RuntimeException("Token JWT inválido ou expirado!");
         }
     }
@@ -49,4 +35,16 @@ public class TokenService {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
 
+    public String gerarToken(Usuario usuario) {
+        try {
+            var algoritmo = Algorithm.HMAC256(secret);
+            return JWT.create()
+                    .withIssuer("ASTRAL")
+                    .withSubject(usuario.getEmail())
+                    .withExpiresAt(dataExpiracao())
+                    .sign(algoritmo);
+        } catch (JWTCreationException exception) {
+            throw new RuntimeException("Erro ao gerar o token JWT: ", exception);
+        }
+    }
 }

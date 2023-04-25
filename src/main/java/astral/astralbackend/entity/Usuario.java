@@ -31,6 +31,10 @@ public class Usuario implements UserDetails {
         this.senha = new BCryptPasswordEncoder().encode(senha);
     }
 
+    public void setSenha(String senha) {
+        this.senha = new BCryptPasswordEncoder().encode(senha);
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

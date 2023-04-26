@@ -16,11 +16,6 @@ public class TratadorDeErros {
         return ResponseEntity.badRequest().body(exception.getMessage());
     }
 
-    @ExceptionHandler(LoginInvalidoException.class)
-    public ResponseEntity tratarLoginInvalido(LoginInvalidoException exception) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exception.getMessage());
-    }
-
     @ExceptionHandler(IdNaoEncontradoException.class)
     public ResponseEntity tratarErroIdNaoEncontrado(IdNaoEncontradoException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());

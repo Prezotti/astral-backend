@@ -28,6 +28,7 @@ public class FeiraController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Transactional
     public ResponseEntity cadastrarFeira(UriComponentsBuilder uriBuilder) {
+        service.desabilitarFeirasAbertas();
         var feira = new Feira();
         repository.save(feira);
 

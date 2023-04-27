@@ -43,7 +43,7 @@ public class ProdutoController {
 
     @GetMapping
     public ResponseEntity<List<ListagemProdutoDTO>> listarProdutosAtivos() {
-        List<Produto> produtos = repository.findAllByAtivoTrueAndDisponivelTrue();
+        List<Produto> produtos = repository.findAllByAtivoTrueAndDisponivelTrueAndProdutorDisponivelTrue();
         List<ListagemProdutoDTO> listagem = produtos.stream()
                 .map(ListagemProdutoDTO::new)
                 .collect(Collectors.toList());

@@ -25,7 +25,7 @@ public class FeiraService {
     }
 
     public void desabilitarFeirasAbertas() {
-        List<Feira> feirasAbertas = repository.findAllAbertas();
+        List<Feira> feirasAbertas = repository.findAllByAbertaTrue();
         for (Feira feira : feirasAbertas) {
             feira.habilitarDesabilitarFeira();
             repository.save(feira);

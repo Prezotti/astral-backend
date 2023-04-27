@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Service
 public class ProdutoService {
 
@@ -32,7 +34,7 @@ public class ProdutoService {
         }
         Produtor produtor = produtorRepository.getReferenceById(dados.produtorId());
 
-        if(!ehImagem(file)){
+        if (!ehImagem(file)) {
             throw new ValidacaoException("O arquivo deve ser uma imagem JPEG ou PNG");
         }
 
@@ -54,8 +56,8 @@ public class ProdutoService {
         return true;
     }
 
-    public void deletarProduto(Long id){
-        if(!produtoRepository.existsById(id)){
+    public void deletarProduto(Long id) {
+        if (!produtoRepository.existsById(id)) {
             throw new IdNaoEncontradoException("O id do produto não existe!");
         }
         var produto = produtoRepository.getReferenceById(id);
@@ -75,15 +77,15 @@ public class ProdutoService {
     }
 
     public Produto atualizarProduto(AtualizaProdutoDTO dados, MultipartFile file) {
-        if(!produtoRepository.existsById(dados.id())){
+        if (!produtoRepository.existsById(dados.id())) {
             throw new IdNaoEncontradoException("O id do produto não existe!");
         }
 
         var produto = produtoRepository.getReferenceById(dados.id());
         String imagem = produto.getImagem();
 
-        if(file != null){
-            if(!ehImagem(file)) {
+        if (file != null) {
+            if (!ehImagem(file)) {
                 throw new ValidacaoException("O arquivo deve ser uma imagem JPEG ou PNG");
             }
             storageService.deleteImagemProduto(produto.getImagem());
@@ -94,5 +96,19 @@ public class ProdutoService {
         produto.setImagem(imagem);
 
         return produto;
+    }
+
+    public List<Produto> ListarProdutosPorProdutor(Long id, Boolean disponivel) {
+        if (!produtorRepository.existsById(id)) {
+            throw new IdNaoEncontradoException("Id do produtor informado não existe!");
+        }
+        List<Produto> produtos;
+        if (disponivel != null) {
+            produtos = disponivel == false ? produtoRepository.findAllByAtivoTrueAndDisponivelFalseAndProdutorId(id)
+                                           : produtoRepository.findAllByAtivoTrueAndDisponivelTrueAndProdutorId(id);
+        } else {
+            produtos = produtoRepository.findAllByAtivoTrueAndProdutorId(id);
+        }
+        return produtos;
     }
 }

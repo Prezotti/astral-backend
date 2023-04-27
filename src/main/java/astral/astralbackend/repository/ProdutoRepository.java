@@ -16,4 +16,10 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
             AND p.produtor.disponivel = true
             """)
     List<Produto> findAllByAtivoTrueAndDisponivelTrueAndProdutorDisponivelTrue();
+
+    List<Produto> findAllByAtivoTrueAndDisponivelTrueAndProdutorId(Long id);
+
+    List<Produto> findAllByAtivoTrueAndDisponivelFalseAndProdutorId(Long id);
+
+    List<Produto> findAllByAtivoTrueAndProdutorId(Long id);
 }

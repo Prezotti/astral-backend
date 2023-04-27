@@ -50,6 +50,17 @@ public class ProdutoController {
         return ResponseEntity.ok(listagem);
     }
 
+    @GetMapping("/produtor/{id}")
+    @PreAuthorize("hasRole('ROLE_PRODUTOR')")
+    public ResponseEntity<List<ListagemProdutoDTO>> listarProdutorPorProdutor(@PathVariable Long id,
+                                                                              @RequestParam(name = "disponivel", required = false) Boolean disponivel){
+        List<Produto> produtos = service.ListarProdutosPorProdutor(id, disponivel);
+        List<ListagemProdutoDTO> listagem = produtos.stream()
+                .map(ListagemProdutoDTO::new)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(listagem);
+    }
+
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_PRODUTOR')")
     @Transactional

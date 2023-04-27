@@ -13,6 +13,7 @@ public record ListagemProdutoDTO(Long id,
                                  String medida,
                                  String imagem,
                                  ECategoria categoria,
+                                 boolean disponivel,
                                  DetalhamentoProdutorDTO produtor) {
     public ListagemProdutoDTO(Produto produto){
         this(produto.getId(),
@@ -22,6 +23,7 @@ public record ListagemProdutoDTO(Long id,
                 produto.getMedida(),
                 produto.getImagem(),
                 produto.getCategoria(),
+                produto.getDisponivel(),
                 new DetalhamentoProdutorDTO(produto.getProdutor()));
     }
 }

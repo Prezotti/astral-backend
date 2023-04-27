@@ -1,6 +1,7 @@
 package astral.astralbackend.service;
 
 import astral.astralbackend.dtos.produtor.AtualizaProdutorDTO;
+import astral.astralbackend.entity.Feira;
 import astral.astralbackend.entity.Produtor;
 import astral.astralbackend.exception.IdNaoEncontradoException;
 import astral.astralbackend.exception.ValidacaoException;
@@ -44,5 +45,14 @@ public class ProdutorService {
         }
 
         return produtores;
+    }
+
+    public Produtor disponivelNaoDisponivel(Long id) {
+        if (!produtorRepository.existsById(id)) {
+            throw new IdNaoEncontradoException("Id da feira informado não existe!");
+        }
+        var produtor = produtorRepository.getReferenceById(id);
+        produtor.disponivelNaoDisponivel();
+        return produtor;
     }
 }

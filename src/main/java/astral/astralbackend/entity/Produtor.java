@@ -60,4 +60,5 @@ public class Produtor extends Usuario {
         return List.of(new SimpleGrantedAuthority("ROLE_PRODUTOR"));
     }
 
+    public void disponivelNaoDisponivel() {this.disponivel = (!this.disponivel);}
 }

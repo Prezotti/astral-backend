@@ -67,4 +67,14 @@ public class ProdutorController {
 
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Transactional
+    public ResponseEntity<DetalhamentoProdutorDTO> disponivelNaoDisponivel(@PathVariable Long id) {
+        Produtor produtor = service.disponivelNaoDisponivel(id);
+        return ResponseEntity.ok(new DetalhamentoProdutorDTO(produtor));
+    }
+
+
 }

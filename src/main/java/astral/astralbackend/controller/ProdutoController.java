@@ -52,7 +52,7 @@ public class ProdutoController {
 
     @GetMapping("/produtor/{id}")
     @PreAuthorize("hasRole('ROLE_PRODUTOR')")
-    public ResponseEntity<List<ListagemProdutoDTO>> listarProdutorPorProdutor(@PathVariable Long id,
+    public ResponseEntity<List<ListagemProdutoDTO>> listarProdutosPorProdutor(@PathVariable Long id,
                                                                               @RequestParam(name = "disponivel", required = false) Boolean disponivel){
         List<Produto> produtos = service.ListarProdutosPorProdutor(id, disponivel);
         List<ListagemProdutoDTO> listagem = produtos.stream()

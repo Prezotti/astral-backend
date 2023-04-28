@@ -1,5 +1,6 @@
 package astral.astralbackend.entity;
 
+import astral.astralbackend.dtos.feira.CadastroFeiraDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -22,13 +23,16 @@ public class Feira {
     private Boolean aberta;
 
     private LocalDateTime dataAbertura;
+
+    private BigDecimal taxaEntrega;
     
     private BigDecimal valorTotal;
 
-    public Feira() {
+    public Feira(CadastroFeiraDTO dados) {
         this.aberta = true;
         this.dataAbertura = LocalDateTime.now();
         this.valorTotal = BigDecimal.ZERO;
+        this.taxaEntrega = dados.taxaEntrega();
     }
 
     public void habilitarDesabilitarFeira(){

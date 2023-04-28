@@ -1,10 +1,13 @@
 package astral.astralbackend.controller;
 
+import astral.astralbackend.dtos.feira.CadastroFeiraDTO;
 import astral.astralbackend.dtos.feira.DetalhamentoFeiraDTO;
 import astral.astralbackend.entity.Feira;
 import astral.astralbackend.repository.FeiraRepository;
 import astral.astralbackend.service.FeiraService;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,9 +30,9 @@ public class FeiraController {
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Transactional
-    public ResponseEntity cadastrarFeira(UriComponentsBuilder uriBuilder) {
+    public ResponseEntity cadastrarFeira(@RequestBody @Valid CadastroFeiraDTO dados, UriComponentsBuilder uriBuilder) {
         service.desabilitarFeirasAbertas();
-        var feira = new Feira();
+        var feira = new Feira(dados);
         repository.save(feira);
 
         var uri = uriBuilder.path("/feira/{id}").buildAndExpand(feira.getId()).toUri();
@@ -38,7 +41,7 @@ public class FeiraController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_PRODUTOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<DetalhamentoFeiraDTO>> listarFeiras() {
         List<Feira> feiras = repository.findAll();
         List<DetalhamentoFeiraDTO> listagem = feiras.stream()

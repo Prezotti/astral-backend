@@ -1,7 +1,7 @@
 create table itemCompra(
     id bigint unsigned not null auto_increment,
     quantidade tinyint unsigned not null,
-    precoUnitario float unsigned not null,
+    preco_unitario float unsigned not null,
     produto_id bigint unsigned not null,
     compra_id bigint unsigned not null,
 

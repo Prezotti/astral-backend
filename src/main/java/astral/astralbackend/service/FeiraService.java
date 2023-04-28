@@ -6,6 +6,8 @@ import astral.astralbackend.repository.FeiraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FeiraService {
 
@@ -20,6 +22,14 @@ public class FeiraService {
         var feira = repository.getReferenceById(id);
         feira.habilitarDesabilitarFeira();
         return feira;
+    }
+
+    public void desabilitarFeirasAbertas() {
+        List<Feira> feirasAbertas = repository.findAllByAbertaTrue();
+        for (Feira feira : feirasAbertas) {
+            feira.habilitarDesabilitarFeira();
+            repository.save(feira);
+        }
     }
 
 }

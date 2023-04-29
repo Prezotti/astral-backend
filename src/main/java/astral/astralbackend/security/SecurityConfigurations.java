@@ -33,6 +33,7 @@ public class SecurityConfigurations {
                 .requestMatchers(HttpMethod.GET, "/produtor").permitAll()
                 .requestMatchers(HttpMethod.POST, "/compra").permitAll()
                 .anyRequest().authenticated()
+                .and().cors()
                 .and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
 

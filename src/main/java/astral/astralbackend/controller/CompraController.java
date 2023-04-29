@@ -24,6 +24,7 @@ public class CompraController {
     @PostMapping
     @Transactional
     public ResponseEntity realizarCompra(@RequestBody @Valid RealizarCompraDTO dados, UriComponentsBuilder uriBuilder) {
+        System.out.println("EUUU");
         Compra compra = service.realizarCompra(dados);
 
         var uri = uriBuilder.path("/feira/{id}").buildAndExpand(compra.getId()).toUri();

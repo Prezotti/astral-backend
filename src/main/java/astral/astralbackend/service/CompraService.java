@@ -7,6 +7,7 @@ import astral.astralbackend.entity.Feira;
 import astral.astralbackend.entity.ItemCompra;
 import astral.astralbackend.entity.Produto;
 import astral.astralbackend.exception.IdNaoEncontradoException;
+import astral.astralbackend.exception.ValidacaoException;
 import astral.astralbackend.repository.CompraRepository;
 import astral.astralbackend.repository.FeiraRepository;
 import astral.astralbackend.repository.ProdutoRepository;
@@ -14,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class CompraService {
@@ -43,6 +42,9 @@ public class CompraService {
                 throw new IdNaoEncontradoException("Id do produto informado não existe:" + item.produtoId() + "!");
             }
             Produto produto = produtoRepository.getReferenceById(item.produtoId());
+            if (item.quantidade() > produto.getQtdEstoque()) {
+                throw new ValidacaoException(produto.getDescricao() + " excedeu o estoque!");
+            }
             ItemCompra itemCompra = new ItemCompra(produto, compra, item.quantidade());
             compra.adicionarItem(itemCompra);
         }

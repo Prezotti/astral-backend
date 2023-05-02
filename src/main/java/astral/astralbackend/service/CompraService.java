@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class CompraService {
@@ -55,6 +56,14 @@ public class CompraService {
 
         return compra;
 
+    }
+
+    public List<Compra> listarCompras(Long id) {
+        if (!feiraRepository.existsById(id)) {
+            throw new IdNaoEncontradoException("Id da feira informada não existe!");
+        }
+        List<Compra> compras = compraRepository.findAllByFeiraId(id);
+        return compras;
     }
 }
 

@@ -11,6 +11,7 @@ import astral.astralbackend.exception.ValidacaoException;
 import astral.astralbackend.repository.CompraRepository;
 import astral.astralbackend.repository.FeiraRepository;
 import astral.astralbackend.repository.ProdutoRepository;
+import astral.astralbackend.repository.ProdutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,8 @@ public class CompraService {
 
     @Autowired
     private FeiraRepository feiraRepository;
-
+    @Autowired
+    private ProdutorRepository produtorRepository;
     @Autowired
     private ProdutoRepository produtoRepository;
 
@@ -65,5 +67,17 @@ public class CompraService {
         List<Compra> compras = compraRepository.findAllByFeiraId(id);
         return compras;
     }
+
+    public List<Compra> listarComprasProdutor(Long idProdutor, Long idFeira) {
+        if(!feiraRepository.existsById(idFeira)){
+            throw new IdNaoEncontradoException("Id da feira informada não existe!");
+        } else if(!produtorRepository.existsById(idProdutor)){
+            throw new IdNaoEncontradoException("Id do produto informado não existe!");
+        }
+        List<Compra> compras = compraRepository.findAllByProdutorIdAndFeiraId(idProdutor, idFeira);
+        System.out.println(compras);
+        return compras;
+    }
+    
 }
 

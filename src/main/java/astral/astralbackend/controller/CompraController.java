@@ -45,10 +45,15 @@ public class CompraController {
         return ResponseEntity.ok(listagem);
     }
 
-/*    @GetMapping("/produtor")
+    @GetMapping("/{idProdutor}/{idFeira}")
     @PreAuthorize("hasRole('ROLE_PRODUTOR')")
     public ResponseEntity listarComprasProdutor(@PathVariable Long idProdutor, @PathVariable Long idFeira){
+        List<Compra> compras = service.listarComprasProdutor(idProdutor, idFeira);
+        List<ListagemCompraDTO> listagem = compras.stream()
+                .map(ListagemCompraDTO::new)
+                .collect(Collectors.toList());
 
-    }*/
+        return ResponseEntity.ok(listagem);
+    }
 
 }

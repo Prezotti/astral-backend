@@ -11,11 +11,13 @@ import astral.astralbackend.exception.ValidacaoException;
 import astral.astralbackend.repository.CompraRepository;
 import astral.astralbackend.repository.FeiraRepository;
 import astral.astralbackend.repository.ProdutoRepository;
+import astral.astralbackend.repository.ProdutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CompraService {
@@ -25,7 +27,8 @@ public class CompraService {
 
     @Autowired
     private FeiraRepository feiraRepository;
-
+    @Autowired
+    private ProdutorRepository produtorRepository;
     @Autowired
     private ProdutoRepository produtoRepository;
 
@@ -65,5 +68,33 @@ public class CompraService {
         List<Compra> compras = compraRepository.findAllByFeiraId(id);
         return compras;
     }
+
+    public List<Compra> listarComprasProdutor(Long idProdutor, Long idFeira) {
+        if(!feiraRepository.existsById(idFeira)){
+            throw new IdNaoEncontradoException("Id da feira informada não existe!");
+        } else if(!produtorRepository.existsById(idProdutor)){
+            throw new IdNaoEncontradoException("Id do produto informado não existe!");
+        }
+        List<Compra> compras = compraRepository.findAllByProdutorIdAndFeiraId(idProdutor, idFeira);
+        List<Compra> comprasProdutor = filtrarComprasPorProdutor(compras, idProdutor);
+        System.out.println(comprasProdutor);
+        return comprasProdutor;
+    }
+
+    public List<Compra> filtrarComprasPorProdutor(List<Compra> compras, Long idProdutor) {
+        return compras.stream()
+                .filter(compra -> compra.getItens().stream()
+                        .anyMatch(item -> item.getProduto().getProdutor().getId().equals(idProdutor)))
+                .map(compra -> {
+                    List<ItemCompra> itensFiltrados = compra.getItens().stream()
+                            .filter(item -> item.getProduto().getProdutor().getId().equals(idProdutor))
+                            .collect(Collectors.toList());
+                    compra.setItens(itensFiltrados);
+                    return compra;
+                })
+                .filter(compra -> !compra.getItens().isEmpty())
+                .collect(Collectors.toList());
+    }
+
 }
 

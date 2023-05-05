@@ -75,4 +75,8 @@ public class Compra {
         }
         return this.valorTotal;
     }
+
+    public void setItens(List<ItemCompra> itens) {
+        this.itens = itens;
+    }
 }

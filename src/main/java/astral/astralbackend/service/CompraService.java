@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CompraService {
@@ -75,9 +76,25 @@ public class CompraService {
             throw new IdNaoEncontradoException("Id do produto informado não existe!");
         }
         List<Compra> compras = compraRepository.findAllByProdutorIdAndFeiraId(idProdutor, idFeira);
-        System.out.println(compras);
-        return compras;
+        List<Compra> comprasProdutor = filtrarComprasPorProdutor(compras, idProdutor);
+        System.out.println(comprasProdutor);
+        return comprasProdutor;
     }
-    
+
+    public List<Compra> filtrarComprasPorProdutor(List<Compra> compras, Long idProdutor) {
+        return compras.stream()
+                .filter(compra -> compra.getItens().stream()
+                        .anyMatch(item -> item.getProduto().getProdutor().getId().equals(idProdutor)))
+                .map(compra -> {
+                    List<ItemCompra> itensFiltrados = compra.getItens().stream()
+                            .filter(item -> item.getProduto().getProdutor().getId().equals(idProdutor))
+                            .collect(Collectors.toList());
+                    compra.setItens(itensFiltrados);
+                    return compra;
+                })
+                .filter(compra -> !compra.getItens().isEmpty())
+                .collect(Collectors.toList());
+    }
+
 }
 

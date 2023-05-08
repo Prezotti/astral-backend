@@ -71,4 +71,8 @@ public class Produto {
             this.categoria = dados.categoria();
         }
     }
+
+    public void removeDoEstoque(Long quantidade) {
+        this.qtdEstoque -= quantidade;
+    }
 }

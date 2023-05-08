@@ -49,6 +49,9 @@ public class CompraService {
             if (item.quantidade() > produto.getQtdEstoque()) {
                 throw new ValidacaoException(produto.getDescricao() + " excedeu o estoque!");
             }
+            produto.removeDoEstoque(item.quantidade());
+            produtoRepository.save(produto);
+
             ItemCompra itemCompra = new ItemCompra(produto, compra, item.quantidade());
             compra.adicionarItem(itemCompra);
         }

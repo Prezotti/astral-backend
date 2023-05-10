@@ -1,10 +1,12 @@
 package astral.astralbackend.security;
 
 import astral.astralbackend.entity.Usuario;
+import astral.astralbackend.exception.TokenInvalidoException;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -19,15 +21,17 @@ public class TokenService {
     private String secret;
 
     public String getSubject(String token) {
+        var algoritimo = Algorithm.HMAC256(secret);
         try {
-            var algoritimo = Algorithm.HMAC256(secret);
             return JWT.require(algoritimo)
                     .withIssuer("ASTRAL")
                     .build()
                     .verify(token)
                     .getSubject();
+        } catch (TokenExpiredException exception) {
+            throw new TokenInvalidoException("Token JWT expirado!");
         } catch (JWTVerificationException exception) {
-            throw new RuntimeException("Token JWT inválido ou expirado!");
+            throw new TokenInvalidoException("Token JWT inválido!");
         }
     }
 

@@ -1,5 +1,6 @@
 package astral.astralbackend.exception;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,11 @@ public class TratadorDeErros {
     @ExceptionHandler(IdNaoEncontradoException.class)
     public ResponseEntity tratarErroIdNaoEncontrado(IdNaoEncontradoException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+    }
+
+    @ExceptionHandler(TokenInvalidoException.class)
+    public ResponseEntity tratarErroTokenInvalido(TokenInvalidoException exception) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exception.getMessage());
     }
 
     @ExceptionHandler(EntityNotFoundException.class)

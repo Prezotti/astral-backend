@@ -20,5 +20,10 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
          """)
     List<Compra> findAllByProdutorIdAndFeiraId(Long idProdutor, Long idFeira);
 
-
+    @Query("""
+            SELECT c FROM Compra c
+            WHERE  c.opcaoRecebimento = 'ENTREGA'
+            AND c.feira.id = :id
+            """)
+    List<Compra> findAllEntregasByFeiraId(Long id);
 }

@@ -73,14 +73,13 @@ public class CompraService {
     }
 
     public List<Compra> listarComprasProdutor(Long idProdutor, Long idFeira) {
-        if(!feiraRepository.existsById(idFeira)){
+        if (!feiraRepository.existsById(idFeira)) {
             throw new IdNaoEncontradoException("Id da feira informada não existe!");
-        } else if(!produtorRepository.existsById(idProdutor)){
+        } else if (!produtorRepository.existsById(idProdutor)) {
             throw new IdNaoEncontradoException("Id do produto informado não existe!");
         }
         List<Compra> compras = compraRepository.findAllByProdutorIdAndFeiraId(idProdutor, idFeira);
         List<Compra> comprasProdutor = filtrarComprasPorProdutor(compras, idProdutor);
-        System.out.println(comprasProdutor);
         return comprasProdutor;
     }
 
@@ -99,5 +98,12 @@ public class CompraService {
                 .collect(Collectors.toList());
     }
 
+    public List<Compra> listarEntregas(Long id) {
+        if (!feiraRepository.existsById(id)) {
+            throw new IdNaoEncontradoException("Id da feira informada não existe!");
+        }
+        List<Compra> compras = compraRepository.findAllEntregasByFeiraId(id);
+        return compras;
+    }
 }
 

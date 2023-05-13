@@ -1,7 +1,8 @@
 package astral.astralbackend.controller;
 
-import astral.astralbackend.dtos.compra.ListagemCompraDTO;
 import astral.astralbackend.dtos.compra.DetalhamentoCompraDTO;
+import astral.astralbackend.dtos.compra.DetalhamentoEntregaDTO;
+import astral.astralbackend.dtos.compra.ListagemCompraDTO;
 import astral.astralbackend.dtos.compra.RealizarCompraDTO;
 import astral.astralbackend.entity.Compra;
 import astral.astralbackend.service.CompraService;
@@ -35,8 +36,7 @@ public class CompraController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity listarCompras(@PathVariable Long id){
-        System.out.println("ID: " + id);
+    public ResponseEntity listarCompras(@PathVariable Long id) {
         List<Compra> compras = service.listarCompras(id);
         List<ListagemCompraDTO> listagem = compras.stream()
                 .map(ListagemCompraDTO::new)
@@ -47,10 +47,21 @@ public class CompraController {
 
     @GetMapping("/{idProdutor}/{idFeira}")
     @PreAuthorize("hasRole('ROLE_PRODUTOR')")
-    public ResponseEntity listarComprasProdutor(@PathVariable Long idProdutor, @PathVariable Long idFeira){
+    public ResponseEntity listarComprasProdutor(@PathVariable Long idProdutor, @PathVariable Long idFeira) {
         List<Compra> compras = service.listarComprasProdutor(idProdutor, idFeira);
         List<ListagemCompraDTO> listagem = compras.stream()
                 .map(ListagemCompraDTO::new)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(listagem);
+    }
+
+    @GetMapping("/entregas/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity realizarEntregas(@PathVariable Long id) {
+        List<Compra> compras = service.listarEntregas(id);
+        List<DetalhamentoEntregaDTO> listagem = compras.stream()
+                .map(DetalhamentoEntregaDTO::new)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(listagem);

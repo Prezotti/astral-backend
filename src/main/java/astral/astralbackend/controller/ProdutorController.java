@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("produtor")
-public class ProdutorController {
+public class  ProdutorController {
 
     @Autowired
     private ProdutorService service;
@@ -47,6 +47,14 @@ public class ProdutorController {
         var produtor = service.listarProdutor(disponivel);
         var listagem = produtor.stream().map(ListagemProdutorDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok(listagem);
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_PRODUTOR')")
+    public ResponseEntity<DetalhamentoProdutorDTO> detalharProdutor(
+            @PathVariable Long id) {
+        var produtor = service.detalharProdutor(id);
+        return ResponseEntity.ok(new DetalhamentoProdutorDTO(produtor));
     }
 
     @PutMapping

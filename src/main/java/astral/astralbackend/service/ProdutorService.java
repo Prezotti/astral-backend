@@ -55,4 +55,11 @@ public class ProdutorService {
         produtor.disponivelNaoDisponivel();
         return produtor;
     }
+
+    public Produtor detalharProdutor(Long id) {
+        if(!produtorRepository.existsById(id)){
+            throw new IdNaoEncontradoException("O id do produtor não existe!");
+        }
+       return produtorRepository.getReferenceById(id);
+    }
 }

@@ -47,6 +47,7 @@ public class TokenService {
                     .withSubject(usuario.getEmail())
                     .withExpiresAt(dataExpiracao())
                     .withClaim("role", usuario.getClass().getSimpleName())
+                    .withClaim("id", usuario.getId())
                     .sign(algoritmo);
         } catch (JWTCreationException exception) {
             throw new RuntimeException("Erro ao gerar o token JWT: ", exception);

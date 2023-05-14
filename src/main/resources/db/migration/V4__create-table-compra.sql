@@ -1,4 +1,4 @@
-create table Compra(
+create table compra(
 
     id bigint unsigned not null auto_increment,
     data datetime not null,
@@ -13,6 +13,6 @@ create table Compra(
     feira_id bigint unsigned not null,
 
     primary key(id),
-    constraint fk_compra_feira_id foreign key(feira_id) references Feira(id)
+    constraint fk_compra_feira_id foreign key(feira_id) references feira(id)
 
 );

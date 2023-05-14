@@ -1,4 +1,4 @@
-create table Feira(
+create table feira(
 
     id bigint unsigned not null auto_increment,
     aberta tinyint not null,

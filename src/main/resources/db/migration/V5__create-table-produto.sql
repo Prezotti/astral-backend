@@ -1,4 +1,4 @@
-create table Produto (
+create table produto (
 
         id bigint unsigned not null auto_increment,
         descricao varchar(255) not null,
@@ -12,5 +12,5 @@ create table Produto (
         ativo tinyint not null,
 
         primary key(id),
-        constraint fk_produto_produtor_id foreign key(produtor_id) references Produtor(id)
+        constraint fk_produto_produtor_id foreign key(produtor_id) references produtor(id)
 );

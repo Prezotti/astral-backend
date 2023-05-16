@@ -42,8 +42,8 @@ public class FeiraController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<DetalhamentoFeiraDTO>> listarFeiras() {
-        List<Feira> feiras = repository.findAll();
+    public ResponseEntity<List<DetalhamentoFeiraDTO>> listarFeiras(@RequestParam(required = false) Boolean aberta) {
+        List<Feira> feiras = service.listarFeiras(aberta);
         List<DetalhamentoFeiraDTO> listagem = feiras.stream()
                 .map(DetalhamentoFeiraDTO::new)
                 .collect(Collectors.toList());

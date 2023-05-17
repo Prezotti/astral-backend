@@ -32,17 +32,6 @@ public class FeiraService {
             repository.save(feira);
         }
     }
-    public List<Feira> listarFeiras(Boolean aberta) {
-        List<Feira> feiras = repository.findAll();
-
-        if (aberta != null && aberta) {
-            feiras = feiras.stream()
-                    .filter(feira -> feira.getAberta())
-                    .collect(Collectors.toList());
-        }
-
-        return feiras;
-    }
 
     public List<Feira> listarFeiras(Boolean aberta) {
         if (aberta != null && aberta) {

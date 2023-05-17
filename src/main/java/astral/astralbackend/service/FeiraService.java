@@ -44,5 +44,13 @@ public class FeiraService {
         return feiras;
     }
 
+    public List<Feira> listarFeiras(Boolean aberta) {
+        if (aberta != null && aberta) {
+            return repository.findAllByAbertaTrue();
+        } else {
+            return repository.findAll();
+        }
+    }
+
 }
 

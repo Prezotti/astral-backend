@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FeiraService {
@@ -29,6 +30,14 @@ public class FeiraService {
         for (Feira feira : feirasAbertas) {
             feira.habilitarDesabilitarFeira();
             repository.save(feira);
+        }
+    }
+
+    public List<Feira> listarFeiras(Boolean aberta) {
+        if (aberta != null && aberta) {
+            return repository.findAllByAbertaTrue();
+        } else {
+            return repository.findAll();
         }
     }
 

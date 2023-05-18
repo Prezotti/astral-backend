@@ -35,12 +35,42 @@ class ProdutoRepositoryTest {
 
     @Test
     @DisplayName("Devolver Produto quando produtor e o produto estiverem disponíveis e ativos")
-    void findAllByAtivoTrueAndDisponivelTrueAndProdutorDisponivelTrue() {
+    void ProdutoDisponivelAtivoEProdutorDisponivel() {
         var produtor = cadastrarProdutor("Juninho Capixaba", "27996136533", "juninho@gmail.com", "12345", true, true);
         var produto = cadastrarProduto("Cenoura", new BigDecimal("12"), 10L, "1kg", ECategoria.LEGUMES, produtor, true, true);
 
         var produtosTeste = produtoRepository.findAllByAtivoTrueAndDisponivelTrueAndProdutorDisponivelTrue();
         assertThat(produtosTeste).contains(produto);
+    }
+
+    @Test
+    @DisplayName("Devolver null quando o produto estiverem disponíveis e ativos, mas o produtor não está disponível")
+    void ProdutoDisponivelEAtivoProdutorIndisponivel() {
+        var produtor = cadastrarProdutor("Juninho Capixaba", "27996136533", "juninho@gmail.com", "12345", true, false);
+        var produto = cadastrarProduto("Cenoura", new BigDecimal("12"), 10L, "1kg", ECategoria.LEGUMES, produtor, true, true);
+
+        var produtosTeste = produtoRepository.findAllByAtivoTrueAndDisponivelTrueAndProdutorDisponivelTrue();
+        assertThat(produtosTeste.isEmpty());
+    }
+
+    @Test
+    @DisplayName("Devolver null quando e o produto estiver inativo")
+    void ProdutoInativo() {
+        var produtor = cadastrarProdutor("Juninho Capixaba", "27996136533", "juninho@gmail.com", "12345", true, true);
+        var produto = cadastrarProduto("Cenoura", new BigDecimal("12"), 10L, "1kg", ECategoria.LEGUMES, produtor, true, false);
+
+        var produtosTeste = produtoRepository.findAllByAtivoTrueAndDisponivelTrueAndProdutorDisponivelTrue();
+        assertThat(produtosTeste.isEmpty());
+    }
+
+    @Test
+    @DisplayName("Devolver null quando e o produto estiver indisponivel")
+    void ProdutoIndisponivel() {
+        var produtor = cadastrarProdutor("Juninho Capixaba", "27996136533", "juninho@gmail.com", "12345", true, false);
+        var produto = cadastrarProduto("Cenoura", new BigDecimal("12"), 10L, "1kg", ECategoria.LEGUMES, produtor, false, true);
+
+        var produtosTeste = produtoRepository.findAllByAtivoTrueAndDisponivelTrueAndProdutorDisponivelTrue();
+        assertThat(produtosTeste.isEmpty());
     }
     private Produto cadastrarProduto(String descricao, BigDecimal preco, Long qtdEstoque, String medida,
                                      ECategoria categoria, Produtor produtor, Boolean disponivel, Boolean ativo) {

@@ -5,7 +5,6 @@ import astral.astralbackend.dtos.produto.CadastroProdutoDTO;
 import astral.astralbackend.enums.ECategoria;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.math.BigDecimal;
 
@@ -44,6 +43,19 @@ public class Produto {
 
     public Produto(CadastroProdutoDTO dados) {
 
+    }
+
+    public Produto(String descricao, BigDecimal preco, Long qtdEstoque, String medida,
+                   ECategoria categoria, Produtor produtor, Boolean disponivel, Boolean ativo) {
+        this.descricao = descricao;
+        this.preco = preco;
+        this.qtdEstoque = qtdEstoque;
+        this.medida = medida;
+        this.categoria = categoria;
+        this.imagem = "";
+        this.produtor = produtor;
+        this.disponivel = disponivel;
+        this.ativo = ativo;
     }
 
     public void habilitarDesabilitarProduto() {

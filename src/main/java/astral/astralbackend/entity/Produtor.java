@@ -38,6 +38,14 @@ public class Produtor extends Usuario {
         this.ativo = true;
     }
 
+    public Produtor(String email, String senha, String nome, String telefone, Boolean disponivel, Boolean ativo) {
+        super(email, senha);
+        this.nome = nome;
+        this.telefone = telefone;
+        this.disponivel = disponivel;
+        this.ativo = ativo;
+    }
+
     public void atualizarInformacoes(AtualizaProdutorDTO dados) {
         if(dados.nome() != null){
             this.nome = dados.nome();

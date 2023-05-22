@@ -39,6 +39,13 @@ public class Feira {
         this.taxaEntrega = dados.taxaEntrega();
     }
 
+    public Feira(Boolean aberta, BigDecimal taxaEntrega) {
+        this.aberta = aberta;
+        this.taxaEntrega = taxaEntrega;
+        this.dataAbertura = LocalDateTime.now();
+        this.valorTotal = BigDecimal.ZERO;
+    }
+
     public void habilitarDesabilitarFeira() {
         this.aberta = (!this.aberta);
     }

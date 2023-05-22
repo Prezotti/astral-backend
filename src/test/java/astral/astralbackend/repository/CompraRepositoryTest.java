@@ -1,5 +1,6 @@
 package astral.astralbackend.repository;
 
+import astral.astralbackend.dtos.feira.CadastroFeiraDTO;
 import astral.astralbackend.entity.*;
 import astral.astralbackend.enums.ECategoria;
 import astral.astralbackend.enums.EFormaPagamento;
@@ -33,26 +34,28 @@ class CompraRepositoryTest {
     @Test
     @DisplayName("Devolver null quando a feira não tiver entregas")
     void feiraSemEntregas() {
-        var feira = cadastrarFeira(true, BigDecimal.valueOf(10.5));
+        var feiraDTO = new CadastroFeiraDTO(BigDecimal.valueOf(10.5));
+        var feira = cadastrarFeira(feiraDTO);
         var compra = cadastrarCompra("Joãozinho","27997805450", "Varzea City", EFormaPagamento.PIX, EOpcaoRecebimento.IFES,
                 BigDecimal.valueOf(0), "", feira);
-
 
         var compraTeste = compraRepository.findAllEntregasByFeiraId(feira.getId());
         assertThat(compraTeste.isEmpty());
     }
 
+
     @Test
     @DisplayName("Devolver compra quando a feira tiver entregas")
     void feiraComEntrega() {
-        var feira = cadastrarFeira(true, BigDecimal.valueOf(10.5));
+        var feiraDTO = new CadastroFeiraDTO(BigDecimal.valueOf(10.5));
+        var feira = cadastrarFeira(feiraDTO);
         var compra = cadastrarCompra("Joãozinho","27997805450", "Varzea City", EFormaPagamento.PIX, EOpcaoRecebimento.ENTREGA,
                 BigDecimal.valueOf(0), "", feira);
-
 
         var compraTeste = compraRepository.findAllEntregasByFeiraId(feira.getId());
         assertThat(compraTeste).contains(compra);
     }
+
 
     private Compra cadastrarCompra(String cliente, String telefone, String endereco, EFormaPagamento pagamento, EOpcaoRecebimento opcaoRecebimento, BigDecimal doacao,
                                   String observacao, Feira feira) {
@@ -61,10 +64,11 @@ class CompraRepositoryTest {
         return compra;
     }
 
-    private Feira cadastrarFeira(Boolean aberta, BigDecimal taxaEntrega) {
-        var feira = new Feira(aberta, taxaEntrega);
+    private Feira cadastrarFeira(CadastroFeiraDTO feiraDTO) {
+        var feira = new Feira(feiraDTO);
         em.persist(feira);
         return feira;
     }
+
 
 }

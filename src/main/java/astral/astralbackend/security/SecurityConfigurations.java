@@ -32,6 +32,7 @@ public class SecurityConfigurations {
                 .requestMatchers(HttpMethod.GET, "/produto").permitAll()
                 .requestMatchers(HttpMethod.GET, "/produtor").permitAll()
                 .requestMatchers(HttpMethod.POST, "/compra").permitAll()
+                .requestMatchers(HttpMethod.GET, "/feira/aberta").permitAll()
                 .anyRequest().authenticated()
                 .and().cors()
                 .and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

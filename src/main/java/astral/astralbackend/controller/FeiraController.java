@@ -43,11 +43,17 @@ public class FeiraController {
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<DetalhamentoFeiraDTO>> listarFeiras(@RequestParam(required = false) Boolean aberta) {
-        List<Feira> feiras = service.listarFeiras(aberta);
+        List<Feira> feiras = service.listarFeiras();
         List<DetalhamentoFeiraDTO> listagem = feiras.stream()
                 .map(DetalhamentoFeiraDTO::new)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(listagem);
+    }
+
+    @GetMapping("/aberta")
+    public ResponseEntity<DetalhamentoFeiraDTO> buscarFeiraAberta(){
+        Feira feira = service.buscarFeiraAberta();
+        return ResponseEntity.ok( new DetalhamentoFeiraDTO(feira));
     }
 
     @PutMapping("/{id}")

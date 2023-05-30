@@ -33,13 +33,13 @@ public class FeiraService {
         }
     }
 
-    public List<Feira> listarFeiras(Boolean aberta) {
-        if (aberta != null && aberta) {
-            return repository.findAllByAbertaTrue();
-        } else {
-            return repository.findAll();
-        }
+    public List<Feira> listarFeiras() {
+        return repository.findAll();
     }
 
+    public Feira buscarFeiraAberta() {
+        Feira feira = repository.findAllByAbertaTrue().get(0);
+        return feira;
+    }
 }
 

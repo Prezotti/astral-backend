@@ -92,6 +92,16 @@ public class CompraService {
                             .filter(item -> item.getProduto().getProdutor().getId().equals(idProdutor))
                             .collect(Collectors.toList());
                     compra.setItens(itensFiltrados);
+
+                    BigDecimal valorTotal = BigDecimal.ZERO; // Inicializa o valor total
+
+                    for (ItemCompra item : itensFiltrados) {
+                        BigDecimal valorItem = item.getProduto().getPreco().multiply(BigDecimal.valueOf(item.getQuantidade()));
+                        valorTotal = valorTotal.add(valorItem);
+                    }
+
+                    compra.setValorTotal(valorTotal); // Define o valor total da compra
+
                     return compra;
                 })
                 .filter(compra -> !compra.getItens().isEmpty())

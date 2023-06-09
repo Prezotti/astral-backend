@@ -14,6 +14,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
             WHERE p.ativo = true
             AND p.disponivel = true
             AND p.produtor.disponivel = true
+            AND p.qtdEstoque > 0
             """)
     List<Produto> findAllByAtivoTrueAndDisponivelTrueAndProdutorDisponivelTrue();
 

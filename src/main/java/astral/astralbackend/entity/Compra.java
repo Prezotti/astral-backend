@@ -79,4 +79,8 @@ public class Compra {
     public void setItens(List<ItemCompra> itens) {
         this.itens = itens;
     }
+
+    public void setValorTotal(BigDecimal valorTotal) {
+        this.valorTotal = valorTotal;
+    }
 }

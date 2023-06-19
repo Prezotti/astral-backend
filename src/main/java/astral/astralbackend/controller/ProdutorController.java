@@ -77,7 +77,7 @@ public class  ProdutorController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_PRODUTOR')")
     @Transactional
     public ResponseEntity<DetalhamentoProdutorDTO> disponivelNaoDisponivel(@PathVariable Long id) {
         Produtor produtor = service.disponivelNaoDisponivel(id);

@@ -32,10 +32,13 @@ public class Feira {
 
     private BigDecimal valorTotal;
 
+    private BigDecimal totalEntregas;
+
     public Feira(CadastroFeiraDTO dados) {
         this.aberta = true;
         this.dataAbertura = LocalDateTime.now();
         this.valorTotal = BigDecimal.ZERO;
+        this.totalEntregas = BigDecimal.ZERO;
         this.taxaEntrega = dados.taxaEntrega();
     }
 
@@ -45,5 +48,10 @@ public class Feira {
 
     public void adicionaValorCompra(BigDecimal valorCompra) {
         this.valorTotal = this.valorTotal.add(valorCompra);
+    }
+
+    public void adicionaValorEntrega() {
+        this.totalEntregas = this.totalEntregas.add(this.taxaEntrega);
+        this.valorTotal = this.valorTotal.add(this.taxaEntrega);
     }
 }

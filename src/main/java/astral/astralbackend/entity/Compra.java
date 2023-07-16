@@ -71,7 +71,7 @@ public class Compra {
             this.valorTotal = this.valorTotal.add(item.getProduto().getPreco().multiply(new BigDecimal(item.getQuantidade())));
         }
         if (this.opcaoRecebimento.equals(EOpcaoRecebimento.ENTREGA)) {
-            this.valorTotal.add(this.feira.getTaxaEntrega());
+            this.feira.adicionaValorEntrega();
         }
         return this.valorTotal;
     }

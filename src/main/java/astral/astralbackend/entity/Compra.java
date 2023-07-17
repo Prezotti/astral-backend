@@ -66,14 +66,22 @@ public class Compra {
         this.itens.add(item);
     }
 
-    public BigDecimal calculaValorTotal() {
+    public BigDecimal calculaValorProdutos(){
+        BigDecimal valorProdutos = BigDecimal.ZERO;
         for (ItemCompra item : this.itens) {
-            this.valorTotal = this.valorTotal.add(item.getProduto().getPreco().multiply(new BigDecimal(item.getQuantidade())));
+            valorProdutos = valorProdutos.add(item.getProduto().getPreco().multiply(new BigDecimal(item.getQuantidade())));
         }
+        return valorProdutos;
+    }
+
+    public void calculaValorTotal() {
+        this.valorTotal = this.valorTotal.add(this.calculaValorProdutos());
+
         if (this.opcaoRecebimento.equals(EOpcaoRecebimento.ENTREGA)) {
-            this.feira.adicionaValorEntrega();
+            this.valorTotal = this.valorTotal.add(this.feira.getTaxaEntrega());
         }
-        return this.valorTotal;
+
+        this.valorTotal = this.valorTotal.add(this.doacao);
     }
 
     public void setItens(List<ItemCompra> itens) {

@@ -1,6 +1,7 @@
 package astral.astralbackend.entity;
 
 import astral.astralbackend.dtos.feira.CadastroFeiraDTO;
+import astral.astralbackend.enums.EOpcaoRecebimento;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,11 +35,14 @@ public class Feira {
 
     private BigDecimal totalEntregas;
 
+    private BigDecimal totalDoacoes;
+
     public Feira(CadastroFeiraDTO dados) {
         this.aberta = true;
         this.dataAbertura = LocalDateTime.now();
         this.valorTotal = BigDecimal.ZERO;
         this.totalEntregas = BigDecimal.ZERO;
+        this.totalDoacoes = BigDecimal.ZERO;
         this.taxaEntrega = dados.taxaEntrega();
     }
 
@@ -46,12 +50,25 @@ public class Feira {
         this.aberta = (!this.aberta);
     }
 
-    public void adicionaValorCompra(BigDecimal valorCompra) {
+    private void adicionaValorCompra(BigDecimal valorCompra) {
         this.valorTotal = this.valorTotal.add(valorCompra);
     }
 
-    public void adicionaValorEntrega() {
+    private void adicionaValorEntrega() {
         this.totalEntregas = this.totalEntregas.add(this.taxaEntrega);
         this.valorTotal = this.valorTotal.add(this.taxaEntrega);
+    }
+
+    private void adicionaValorDoacao(BigDecimal doacao) {
+        this.totalDoacoes = this.totalDoacoes.add(doacao);
+        this.valorTotal = this.valorTotal.add(doacao);
+    }
+
+    public void atualizaTotais(Compra compra) {
+        this.adicionaValorCompra(compra.calculaValorProdutos());
+        this.adicionaValorDoacao(compra.getDoacao());
+        if (compra.getOpcaoRecebimento().equals(EOpcaoRecebimento.ENTREGA)) {
+            this.adicionaValorEntrega();
+        }
     }
 }

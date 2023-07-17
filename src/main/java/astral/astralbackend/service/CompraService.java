@@ -55,10 +55,12 @@ public class CompraService {
             ItemCompra itemCompra = new ItemCompra(produto, compra, item.quantidade());
             compra.adicionarItem(itemCompra);
         }
-        BigDecimal valorCompra = compra.calculaValorTotal();
-        feiraAtual.adicionaValorCompra(valorCompra);
+
+        compra.calculaValorTotal();
+        feiraAtual.atualizaTotais(compra);
 
         compraRepository.save(compra);
+        feiraRepository.save(feiraAtual);
 
         return compra;
 

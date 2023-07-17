@@ -76,7 +76,7 @@ public class CompraService {
         if (!feiraRepository.existsById(idFeira)) {
             throw new IdNaoEncontradoException("Id da feira informada não existe!");
         } else if (!produtorRepository.existsById(idProdutor)) {
-            throw new IdNaoEncontradoException("Id do produto informado não existe!");
+            throw new IdNaoEncontradoException("Id do produtor informado não existe!");
         }
         List<Compra> compras = compraRepository.findAllByProdutorIdAndFeiraId(idProdutor, idFeira);
         List<Compra> comprasProdutor = filtrarComprasPorProdutor(compras, idProdutor);

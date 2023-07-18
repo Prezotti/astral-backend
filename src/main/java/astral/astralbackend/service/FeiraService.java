@@ -38,7 +38,11 @@ public class FeiraService {
     }
 
     public Feira buscarFeiraAberta() {
-        Feira feira = repository.findAllByAbertaTrue().get(0);
+        List<Feira> feiras = repository.findAllByAbertaTrue();
+        if (feiras.isEmpty()){
+            throw new IdNaoEncontradoException("Não possui nenhuma feira aberta!");
+        }
+        Feira feira = feiras.get(0);
         return feira;
     }
 }

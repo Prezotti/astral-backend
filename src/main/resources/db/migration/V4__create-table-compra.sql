@@ -11,6 +11,7 @@ create table compra(
     observacoes varchar(255),
     valor_total float unsigned not null,
     feira_id bigint unsigned not null,
+    taxa_entrega float unsigned,
 
     primary key(id),
     constraint fk_compra_feira_id foreign key(feira_id) references feira(id)

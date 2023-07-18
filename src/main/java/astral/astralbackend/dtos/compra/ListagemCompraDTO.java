@@ -21,6 +21,7 @@ public record ListagemCompraDTO(
         EOpcaoRecebimento opcaoRecebimento,
         BigDecimal doacao,
         String observacoes,
+        BigDecimal taxaEntrega,
         BigDecimal valorTotal
 ) {
     public ListagemCompraDTO(Compra compra) {
@@ -36,6 +37,7 @@ public record ListagemCompraDTO(
                 compra.getOpcaoRecebimento(),
                 compra.getDoacao(),
                 compra.getObservacoes(),
+                compra.getTaxaEntrega(),
                 compra.getValorTotal());
     }
 }

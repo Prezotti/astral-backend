@@ -49,6 +49,8 @@ public class Compra {
     @ManyToOne(fetch = FetchType.LAZY)
     private Feira feira;
 
+    private BigDecimal taxaEntrega = BigDecimal.ZERO;
+
     public Compra(String cliente, String telefone, String endereco, EFormaPagamento formaPagamento, EOpcaoRecebimento opcaoRecebimento, BigDecimal doacao, String observacoes, Feira feira) {
         this.data = LocalDateTime.now();
         this.cliente = cliente;
@@ -79,6 +81,7 @@ public class Compra {
 
         if (this.opcaoRecebimento.equals(EOpcaoRecebimento.ENTREGA)) {
             this.valorTotal = this.valorTotal.add(this.feira.getTaxaEntrega());
+            this.taxaEntrega = this.feira.getTaxaEntrega();
         }
 
         this.valorTotal = this.valorTotal.add(this.doacao);

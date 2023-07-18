@@ -23,8 +23,8 @@ public record DetalhamentoCompraDTO(
         EOpcaoRecebimento opcaoRecebimento,
         BigDecimal doacao,
         String observacoes,
-        BigDecimal valorTotal,
-        DetalhamentoFeiraDTO feira
+        BigDecimal taxaEntrega,
+        BigDecimal valorTotal
 ) {
     public DetalhamentoCompraDTO(Compra compra) {
         this(compra.getId(),
@@ -39,7 +39,7 @@ public record DetalhamentoCompraDTO(
         compra.getOpcaoRecebimento(),
         compra.getDoacao(),
         compra.getObservacoes(),
-        compra.getValorTotal(),
-        new DetalhamentoFeiraDTO(compra.getFeira()));
+        compra.getTaxaEntrega(),
+        compra.getValorTotal());
     }
 }

@@ -1,13 +1,13 @@
 package astral.astralbackend.controller;
 
 import astral.astralbackend.dtos.feira.CadastroFeiraDTO;
+import astral.astralbackend.dtos.feira.DetalhamentoFeiraAbertaDTO;
 import astral.astralbackend.dtos.feira.DetalhamentoFeiraDTO;
 import astral.astralbackend.entity.Feira;
 import astral.astralbackend.repository.FeiraRepository;
 import astral.astralbackend.service.FeiraService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -51,9 +51,9 @@ public class FeiraController {
     }
 
     @GetMapping("/aberta")
-    public ResponseEntity<DetalhamentoFeiraDTO> buscarFeiraAberta(){
+    public ResponseEntity<DetalhamentoFeiraAbertaDTO> buscarFeiraAberta(){
         Feira feira = service.buscarFeiraAberta();
-        return ResponseEntity.ok( new DetalhamentoFeiraDTO(feira));
+        return ResponseEntity.ok(new DetalhamentoFeiraAbertaDTO(feira));
     }
 
     @PutMapping("/{id}")

@@ -35,7 +35,7 @@ public class ProdutoService {
         Produtor produtor = produtorRepository.getReferenceById(dados.produtorId());
 
         if (!ehImagem(file)) {
-            throw new ValidacaoException("O arquivo deve ser uma imagem JPEG ou PNG");
+            throw new ValidacaoException("O arquivo deve ser uma imagem JPG, JPEG ou PNG");
         }
 
         String imagem = storageService.uploadImagemProduto(file, produtor);
@@ -50,7 +50,7 @@ public class ProdutoService {
     }
 
     private boolean ehImagem(MultipartFile file) {
-        if (!file.getContentType().equals("image/jpeg") && !file.getContentType().equals("image/png")) {
+        if (!file.getContentType().equals("image/jpg") && !file.getContentType().equals("image/jpeg") && !file.getContentType().equals("image/png")) {
             return false;
         }
         return true;
@@ -86,7 +86,7 @@ public class ProdutoService {
 
         if (file != null) {
             if (!ehImagem(file)) {
-                throw new ValidacaoException("O arquivo deve ser uma imagem JPEG ou PNG");
+                throw new ValidacaoException("O arquivo deve ser uma imagem JPG, JPEG ou PNG");
             }
             storageService.deleteImagemProduto(produto.getImagem());
             imagem = storageService.uploadImagemProduto(file, produto.getProdutor());

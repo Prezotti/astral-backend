@@ -45,5 +45,13 @@ public class FeiraService {
         Feira feira = feiras.get(0);
         return feira;
     }
+
+    public Feira buscarFeiraMaisRecente() {
+        Feira feira = repository.findMaisRecente();
+        if (feira == null){
+            throw new IdNaoEncontradoException("Não possui nenhuma feira cadastrada!");
+        }
+        return feira;
+    }
 }
 

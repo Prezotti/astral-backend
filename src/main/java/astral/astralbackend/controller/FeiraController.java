@@ -3,6 +3,7 @@ package astral.astralbackend.controller;
 import astral.astralbackend.dtos.feira.CadastroFeiraDTO;
 import astral.astralbackend.dtos.feira.DetalhamentoFeiraAbertaDTO;
 import astral.astralbackend.dtos.feira.DetalhamentoFeiraDTO;
+import astral.astralbackend.dtos.feira.DetalhamentoFeiraRecenteDTO;
 import astral.astralbackend.entity.Feira;
 import astral.astralbackend.repository.FeiraRepository;
 import astral.astralbackend.service.FeiraService;
@@ -54,6 +55,12 @@ public class FeiraController {
     public ResponseEntity<DetalhamentoFeiraAbertaDTO> buscarFeiraAberta(){
         Feira feira = service.buscarFeiraAberta();
         return ResponseEntity.ok(new DetalhamentoFeiraAbertaDTO(feira));
+    }
+
+    @GetMapping("/recente")
+    public ResponseEntity<DetalhamentoFeiraRecenteDTO> buscarFeiraMaisRecente(){
+        Feira feira = service.buscarFeiraMaisRecente();
+        return ResponseEntity.ok(new DetalhamentoFeiraRecenteDTO(feira));
     }
 
     @PutMapping("/{id}")

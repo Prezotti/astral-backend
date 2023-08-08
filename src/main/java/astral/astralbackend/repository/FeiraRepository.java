@@ -9,4 +9,12 @@ import java.util.List;
 
 public interface FeiraRepository extends JpaRepository<Feira, Long> {
     List<Feira> findAllByAbertaTrue();
+
+    @Query("""
+            SELECT f
+            FROM Feira f
+            ORDER BY f.dataAbertura DESC
+            LIMIT 1
+            """)
+    Feira findMaisRecente();
 }

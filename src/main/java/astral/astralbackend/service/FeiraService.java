@@ -53,5 +53,13 @@ public class FeiraService {
         }
         return feira;
     }
+
+    public Feira detalharFeira(Long id) {
+        if (!repository.existsById(id)) {
+            throw new IdNaoEncontradoException("Id da feira informado não existe!");
+        }
+        Feira feira = repository.getReferenceById(id);
+        return feira;
+    }
 }
 

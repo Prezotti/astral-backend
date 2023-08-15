@@ -51,6 +51,13 @@ public class FeiraController {
         return ResponseEntity.ok(listagem);
     }
 
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<DetalhamentoFeiraDTO> listarFeira(@PathVariable Long id){
+        Feira feira = service.detalharFeira(id);
+        return ResponseEntity.ok(new DetalhamentoFeiraDTO(feira));
+    }
+
     @GetMapping("/aberta")
     public ResponseEntity<DetalhamentoFeiraAbertaDTO> buscarFeiraAberta(){
         Feira feira = service.buscarFeiraAberta();

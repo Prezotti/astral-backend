@@ -56,6 +56,13 @@ public class FeiraController {
         return ResponseEntity.ok(new DetalhamentoFeiraDTO(feira));
     }
 
+    @GetMapping("/{idProdutor}/{idFeira}")
+    @PreAuthorize("hasRole('ROLE_PRODUTOR')")
+    public ResponseEntity<DetalhamentoFeiraDoProdutorDTO> listarFeiraDoProdutor(@PathVariable Long idProdutor, @PathVariable Long idFeira){
+        DetalhamentoFeiraDoProdutorDTO feira = service.detalharFeiraDoProdutor(idProdutor, idFeira);
+        return ResponseEntity.ok(feira);
+    }
+
     @GetMapping("/aberta")
     public ResponseEntity<DetalhamentoFeiraAbertaDTO> buscarFeiraAberta(){
         Feira feira = service.buscarFeiraAberta();
@@ -76,11 +83,4 @@ public class FeiraController {
         return ResponseEntity.ok(new DetalhamentoFeiraDTO(feira));
     }
 
-    @GetMapping("/{idProdutor}/{idFeira}")
-    @PreAuthorize("hasRole('ROLE_PRODUTOR')")
-    public ResponseEntity<DetalhamentoFeiraDoProdutorDTO> detalharFeiraDoProdutor(@PathVariable Long idProdutor, @PathVariable Long idFeira){
-        DetalhamentoFeiraDoProdutorDTO feira = service.detalharFeiraDoProdutor(idProdutor, idFeira);
-
-        return ResponseEntity.ok(feira);
-    }
 }

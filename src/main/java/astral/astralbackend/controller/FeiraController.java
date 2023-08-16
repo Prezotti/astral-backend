@@ -1,9 +1,6 @@
 package astral.astralbackend.controller;
 
-import astral.astralbackend.dtos.feira.CadastroFeiraDTO;
-import astral.astralbackend.dtos.feira.DetalhamentoFeiraAbertaDTO;
-import astral.astralbackend.dtos.feira.DetalhamentoFeiraDTO;
-import astral.astralbackend.dtos.feira.DetalhamentoFeiraRecenteDTO;
+import astral.astralbackend.dtos.feira.*;
 import astral.astralbackend.entity.Feira;
 import astral.astralbackend.repository.FeiraRepository;
 import astral.astralbackend.service.FeiraService;
@@ -15,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,4 +76,11 @@ public class FeiraController {
         return ResponseEntity.ok(new DetalhamentoFeiraDTO(feira));
     }
 
+    @GetMapping("/{idProdutor}/{idFeira}")
+    @PreAuthorize("hasRole('ROLE_PRODUTOR')")
+    public ResponseEntity<DetalhamentoFeiraDoProdutorDTO> detalharFeiraDoProdutor(@PathVariable Long idProdutor, @PathVariable Long idFeira){
+        DetalhamentoFeiraDoProdutorDTO feira = service.detalharFeiraDoProdutor(idProdutor, idFeira);
+
+        return ResponseEntity.ok(feira);
+    }
 }

@@ -69,15 +69,15 @@ public class CompraService {
         compraRepository.save(compra);
         feiraRepository.save(feiraAtual);
 
-        notificarProdutores(feiraAtual.getId());
+        notificarProdutores(feiraAtual.getId(), compra.getId());
 
         return compra;
 
     }
 
     @Async
-    private void notificarProdutores(Long idFeira) {
-        List<Produtor> produtoresParticipantes = compraRepository.findAllProdutoresbyFeiraId(idFeira);
+    private void notificarProdutores(Long idFeira, Long idCompra) {
+        List<Produtor> produtoresParticipantes = compraRepository.findAllProdutoresbyFeiraIdAndCompraId(idFeira, idCompra);
         if (!produtoresParticipantes.isEmpty()) {
             produtoresParticipantes.forEach(produtor -> {
                 String content = emailService.getConteudoEmailProdutor(produtor.getNome(), idFeira);

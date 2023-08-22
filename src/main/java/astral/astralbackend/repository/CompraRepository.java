@@ -33,7 +33,8 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
             JOIN c.feira f
             JOIN c.itens i
             JOIN i.produto produto
-            WHERE c.feira.id = :id
+            WHERE c.feira.id = :idFeira
+            AND c.id = :idCompra
             """)
-    List<Produtor> findAllProdutoresbyFeiraId(Long id);
+    List<Produtor> findAllProdutoresbyFeiraIdAndCompraId(Long idFeira, Long idCompra);
 }

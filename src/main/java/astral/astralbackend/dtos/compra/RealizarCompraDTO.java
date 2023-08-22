@@ -16,7 +16,6 @@ public record RealizarCompraDTO(
         @NotBlank
         String telefone,
 
-        @NotBlank
         String endereco,
 
         List<CadastroItemCompraDTO> itens,

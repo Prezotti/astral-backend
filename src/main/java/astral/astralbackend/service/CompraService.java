@@ -41,7 +41,12 @@ public class CompraService {
         }
         Feira feiraAtual = feiraRepository.getReferenceById(dados.feiraId());
 
-        Compra compra = new Compra(dados.cliente(), dados.telefone(), dados.endereco(), dados.formaPagamento(), dados.opcaoRecebimento(), dados.doacao(), dados.observacoes(), feiraAtual);
+        String endereco = "";
+        if(dados.endereco() != null){
+            endereco = dados.endereco();
+        }
+
+        Compra compra = new Compra(dados.cliente(), dados.telefone(), endereco, dados.formaPagamento(), dados.opcaoRecebimento(), dados.doacao(), dados.observacoes(), feiraAtual);
 
         for (CadastroItemCompraDTO item : dados.itens()) {
             if (!produtoRepository.existsById(item.produtoId())) {

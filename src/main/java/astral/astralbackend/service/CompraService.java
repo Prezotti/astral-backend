@@ -2,17 +2,16 @@ package astral.astralbackend.service;
 
 import astral.astralbackend.dtos.compra.CadastroItemCompraDTO;
 import astral.astralbackend.dtos.compra.RealizarCompraDTO;
-import astral.astralbackend.entity.Compra;
-import astral.astralbackend.entity.Feira;
-import astral.astralbackend.entity.ItemCompra;
-import astral.astralbackend.entity.Produto;
+import astral.astralbackend.entity.*;
 import astral.astralbackend.exception.IdNaoEncontradoException;
 import astral.astralbackend.exception.ValidacaoException;
 import astral.astralbackend.repository.CompraRepository;
 import astral.astralbackend.repository.FeiraRepository;
 import astral.astralbackend.repository.ProdutoRepository;
 import astral.astralbackend.repository.ProdutorRepository;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -31,6 +30,9 @@ public class CompraService {
     private ProdutorRepository produtorRepository;
     @Autowired
     private ProdutoRepository produtoRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     public Compra realizarCompra(RealizarCompraDTO dados) {
 
@@ -62,8 +64,25 @@ public class CompraService {
         compraRepository.save(compra);
         feiraRepository.save(feiraAtual);
 
+        notificarProdutores(feiraAtual.getId());
+
         return compra;
 
+    }
+
+    @Async
+    private void notificarProdutores(Long idFeira) {
+        List<Produtor> produtoresParticipantes = compraRepository.findAllProdutoresbyFeiraId(idFeira);
+        if (!produtoresParticipantes.isEmpty()) {
+            produtoresParticipantes.forEach(produtor -> {
+                String content = emailService.getConteudoEmailProdutor(produtor.getNome(), idFeira);
+                try {
+                    emailService.enviarEmailParaProdutor("Notificação de venda", produtor.getEmail(), content);
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
     }
 
     public List<Compra> listarCompras(Long id) {

@@ -18,7 +18,6 @@ public record DetalhamentoCompraDTO(
         String cliente,
         String telefone,
         String endereco,
-        String emailCliente,
         List<DetalhamentoItemCompraDTO> itens,
         EFormaPagamento formaPagamento,
         EOpcaoRecebimento opcaoRecebimento,
@@ -33,7 +32,6 @@ public record DetalhamentoCompraDTO(
         compra.getCliente(),
         compra.getTelefone(),
         compra.getEndereco(),
-                compra.getEmailCliente(),
                 compra.getItens().stream()
                 .map(DetalhamentoItemCompraDTO::new)
                 .collect(Collectors.toList()),

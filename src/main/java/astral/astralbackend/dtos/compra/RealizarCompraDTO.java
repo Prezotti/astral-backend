@@ -3,6 +3,7 @@ package astral.astralbackend.dtos.compra;
 import astral.astralbackend.entity.ItemCompra;
 import astral.astralbackend.enums.EFormaPagamento;
 import astral.astralbackend.enums.EOpcaoRecebimento;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -17,7 +18,9 @@ public record RealizarCompraDTO(
         String telefone,
 
         String endereco,
-
+        @NotBlank
+        @Email
+        String emailCliente,
         List<CadastroItemCompraDTO> itens,
 
         EFormaPagamento formaPagamento,

@@ -31,6 +31,8 @@ public class Compra {
 
     private String endereco;
 
+    private String emailCliente;
+
     @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL)
     private List<ItemCompra> itens = new ArrayList<>();
 
@@ -51,11 +53,12 @@ public class Compra {
 
     private BigDecimal taxaEntrega = BigDecimal.ZERO;
 
-    public Compra(String cliente, String telefone, String endereco, EFormaPagamento formaPagamento, EOpcaoRecebimento opcaoRecebimento, BigDecimal doacao, String observacoes, Feira feira) {
+    public Compra(String cliente, String telefone, String endereco, String emailCliente, EFormaPagamento formaPagamento, EOpcaoRecebimento opcaoRecebimento, BigDecimal doacao, String observacoes, Feira feira) {
         this.data = LocalDateTime.now();
         this.cliente = cliente;
         this.telefone = telefone;
         this.endereco = endereco;
+        this.emailCliente = emailCliente;
         this.formaPagamento = formaPagamento;
         this.opcaoRecebimento = opcaoRecebimento;
         this.doacao = doacao;

@@ -30,7 +30,6 @@ public class CompraService {
     private ProdutorRepository produtorRepository;
     @Autowired
     private ProdutoRepository produtoRepository;
-
     @Autowired
     private EmailService emailService;
 
@@ -46,7 +45,7 @@ public class CompraService {
             endereco = dados.endereco();
         }
 
-        Compra compra = new Compra(dados.cliente(), dados.telefone(), endereco, dados.formaPagamento(), dados.opcaoRecebimento(), dados.doacao(), dados.observacoes(), feiraAtual);
+        Compra compra = new Compra(dados.cliente(), dados.telefone(), endereco,  dados.emailCliente(), dados.formaPagamento(), dados.opcaoRecebimento(), dados.doacao(), dados.observacoes(), feiraAtual);
 
         for (CadastroItemCompraDTO item : dados.itens()) {
             if (!produtoRepository.existsById(item.produtoId())) {

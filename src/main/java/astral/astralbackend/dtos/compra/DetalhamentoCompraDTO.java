@@ -32,7 +32,7 @@ public record DetalhamentoCompraDTO(
         compra.getCliente(),
         compra.getTelefone(),
         compra.getEndereco(),
-        compra.getItens().stream()
+                compra.getItens().stream()
                 .map(DetalhamentoItemCompraDTO::new)
                 .collect(Collectors.toList()),
         compra.getFormaPagamento(),

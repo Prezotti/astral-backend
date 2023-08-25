@@ -15,6 +15,7 @@ public record DetalhamentoEntregaDTO(
         String cliente,
         String telefone,
         String endereco,
+        String emailCliente,
         EFormaPagamento formaPagamento,
         BigDecimal doacao,
         BigDecimal valorTotal
@@ -24,6 +25,7 @@ public record DetalhamentoEntregaDTO(
         compra.getCliente(),
         compra.getTelefone(),
         compra.getEndereco(),
+        compra.getEmailCliente(),
         compra.getFormaPagamento(),
         compra.getDoacao(),
         compra.getValorTotal());

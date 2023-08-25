@@ -5,6 +5,7 @@ create table compra(
     cliente varchar(255) not null,
     telefone varchar(255) not null,
     endereco varchar(255) not null,
+    email_cliente varchar(255) not null,
     forma_pagamento varchar(255) not null,
     opcao_recebimento varchar(255) not null,
     doacao float unsigned,

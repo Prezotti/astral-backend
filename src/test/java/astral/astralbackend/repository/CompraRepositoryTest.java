@@ -36,7 +36,7 @@ class CompraRepositoryTest {
     void feiraSemEntregas() {
         var feiraDTO = new CadastroFeiraDTO(BigDecimal.valueOf(10.5));
         var feira = cadastrarFeira(feiraDTO);
-        var compra = cadastrarCompra("Joãozinho","27997805450", "Varzea City", EFormaPagamento.PIX, EOpcaoRecebimento.IFES,
+        var compra = cadastrarCompra("Joãozinho","27997805450", "Varzea City", "joaozinho@gmail.com", EFormaPagamento.PIX, EOpcaoRecebimento.IFES,
                 BigDecimal.valueOf(0), "", feira);
 
         var compraTeste = compraRepository.findAllEntregasByFeiraId(feira.getId());
@@ -49,7 +49,7 @@ class CompraRepositoryTest {
     void feiraComEntrega() {
         var feiraDTO = new CadastroFeiraDTO(BigDecimal.valueOf(10.5));
         var feira = cadastrarFeira(feiraDTO);
-        var compra = cadastrarCompra("Joãozinho","27997805450", "Varzea City", EFormaPagamento.PIX, EOpcaoRecebimento.ENTREGA,
+        var compra = cadastrarCompra("Joãozinho","27997805450", "Varzea City", "joaozinho@gmail.com", EFormaPagamento.PIX, EOpcaoRecebimento.ENTREGA,
                 BigDecimal.valueOf(0), "", feira);
 
         var compraTeste = compraRepository.findAllEntregasByFeiraId(feira.getId());
@@ -57,9 +57,9 @@ class CompraRepositoryTest {
     }
 
 
-    private Compra cadastrarCompra(String cliente, String telefone, String endereco, EFormaPagamento pagamento, EOpcaoRecebimento opcaoRecebimento, BigDecimal doacao,
+    private Compra cadastrarCompra(String cliente, String telefone, String endereco, String emailCliente, EFormaPagamento pagamento, EOpcaoRecebimento opcaoRecebimento, BigDecimal doacao,
                                   String observacao, Feira feira) {
-        var compra = new Compra(cliente, telefone, endereco, pagamento, opcaoRecebimento, doacao, observacao, feira);
+        var compra = new Compra(cliente, telefone, endereco, emailCliente, pagamento, opcaoRecebimento, doacao, observacao, feira);
         em.persist(compra);
         return compra;
     }

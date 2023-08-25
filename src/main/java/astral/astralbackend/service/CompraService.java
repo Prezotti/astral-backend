@@ -41,11 +41,16 @@ public class CompraService {
         Feira feiraAtual = feiraRepository.getReferenceById(dados.feiraId());
 
         String endereco = "";
-        if(dados.endereco() != null){
+        if (dados.endereco() != null) {
             endereco = dados.endereco();
         }
 
-        Compra compra = new Compra(dados.cliente(), dados.telefone(), endereco,  dados.emailCliente(), dados.formaPagamento(), dados.opcaoRecebimento(), dados.doacao(), dados.observacoes(), feiraAtual);
+        BigDecimal doacao = BigDecimal.ZERO;
+        if (dados.doacao() != null) {
+            doacao = dados.doacao();
+        }
+
+        Compra compra = new Compra(dados.cliente(), dados.telefone(), endereco, dados.emailCliente(), dados.formaPagamento(), dados.opcaoRecebimento(), doacao, dados.observacoes(), feiraAtual);
 
         for (CadastroItemCompraDTO item : dados.itens()) {
             if (!produtoRepository.existsById(item.produtoId())) {
@@ -69,23 +74,32 @@ public class CompraService {
         feiraRepository.save(feiraAtual);
 
         notificarProdutores(feiraAtual.getId(), compra.getId());
+        notificarCliente(compra);
 
         return compra;
 
     }
 
-    @Async
     private void notificarProdutores(Long idFeira, Long idCompra) {
         List<Produtor> produtoresParticipantes = compraRepository.findAllProdutoresbyFeiraIdAndCompraId(idFeira, idCompra);
         if (!produtoresParticipantes.isEmpty()) {
             produtoresParticipantes.forEach(produtor -> {
                 String content = emailService.getConteudoEmailProdutor(produtor.getNome(), idFeira);
                 try {
-                    emailService.enviarEmailParaProdutor("Notificação de venda", produtor.getEmail(), content);
+                    emailService.enviarEmail("Notificação de venda", produtor.getEmail(), content);
                 } catch (MessagingException e) {
                     e.printStackTrace();
                 }
             });
+        }
+    }
+
+    private void notificarCliente(Compra compra) {
+        String content = emailService.getConteudoEmailCliente(compra);
+        try {
+            emailService.enviarEmail("Notificação de compra - ASTRAL", compra.getEmailCliente(), content);
+        } catch (MessagingException e) {
+            e.printStackTrace();
         }
     }
 

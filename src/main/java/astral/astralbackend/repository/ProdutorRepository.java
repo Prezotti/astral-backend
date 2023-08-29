@@ -16,4 +16,5 @@ public interface ProdutorRepository extends JpaRepository<Produtor, Long> {
 
     List<Produtor> findByAtivoTrueAndDisponivel(boolean disponivel);
 
+    boolean existsByEmailAndAtivoTrue(String email);
 }

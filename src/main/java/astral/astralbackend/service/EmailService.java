@@ -44,7 +44,7 @@ public class EmailService {
                                 
                 <p>Chegou um novo pedido para voc&ecirc;!&nbsp;😆</p>
                                 
-                <p>Venha conferir: <a href="https://astral-frontend-nu.vercel.app/minhas-vendas/%d">https://astral-frontend-nu.vercel.app/minhas-vendas/%d</a></p>
+                <p>Venha conferir: <a href="https://astral.ecowebfeira.com/minhas-vendas/%d">https://astral.ecowebfeira.com/minhas-vendas/%d</a></p>
                 """.formatted(nome, idFeira, idFeira);
         return html;
     }

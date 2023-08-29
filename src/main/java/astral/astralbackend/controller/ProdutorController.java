@@ -5,6 +5,7 @@ import astral.astralbackend.dtos.produtor.CadastroProdutorDTO;
 import astral.astralbackend.dtos.produtor.DetalhamentoProdutorDTO;
 import astral.astralbackend.dtos.produtor.ListagemProdutorDTO;
 import astral.astralbackend.entity.Produtor;
+import astral.astralbackend.exception.ValidacaoException;
 import astral.astralbackend.repository.ProdutorRepository;
 import astral.astralbackend.service.ProdutorService;
 import jakarta.transaction.Transactional;
@@ -32,6 +33,9 @@ public class  ProdutorController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Transactional
     public ResponseEntity cadastrarProdutor(@RequestBody @Valid CadastroProdutorDTO dados, UriComponentsBuilder uriBuilder) {
+        if(repository.existsByEmailAndAtivoTrue(dados.email())){
+            throw new ValidacaoException("Este email já está cadastrado para outro produtor ativo!");
+        }
         var produtor = new Produtor(dados);
         repository.save(produtor);
 

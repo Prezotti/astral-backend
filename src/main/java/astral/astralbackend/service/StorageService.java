@@ -14,6 +14,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Service
 public class StorageService {
@@ -21,29 +24,77 @@ public class StorageService {
     @Value("${application.bucket.name}")
     private String bucketName;
 
-    @Autowired
+    @Value("${application.storage.local:true}")
+    private boolean storageLocal;
+
+    @Autowired(required = false)
     private AmazonS3 s3Client;
 
     public String uploadImagemProduto(MultipartFile file, Produtor produtor) {
-        File fileObject = convertMultiPartFileToFile(file);
         String fileName = "produtor_" + produtor.getId() + "/" + file.getOriginalFilename() + "_" + System.currentTimeMillis();
-        s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObject));
-        fileObject.delete();
-        String fileUrl = s3Client.getUrl(bucketName, fileName).toString();
-        return fileUrl;
+
+        if (storageLocal) {
+            return uploadLocal(file, fileName);
+        } else {
+            return uploadS3(file, fileName);
+        }
+    }
+
+    private String uploadLocal(MultipartFile file, String fileName) {
+        try {
+            Path uploadsDir = Paths.get("uploads").toAbsolutePath().normalize();
+            Path filePath = uploadsDir.resolve(fileName);
+            Files.createDirectories(filePath.getParent());
+            Files.write(filePath, file.getBytes());
+            return "/uploads/" + fileName;
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao salvar imagem localmente: " + e.getMessage());
+        }
+    }
+
+    private String uploadS3(MultipartFile file, String fileName) {
+        File fileObject = convertMultiPartFileToFile(file);
+        try {
+            s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObject));
+            String fileUrl = s3Client.getUrl(bucketName, fileName).toString();
+            return fileUrl;
+        } finally {
+            fileObject.delete();
+        }
     }
 
     public String deleteImagemProduto(String urlArquivo) {
-        URL url = null;
-        String key = null;
+        if (storageLocal) {
+            return deleteLocal(urlArquivo);
+        } else {
+            return deleteS3(urlArquivo);
+        }
+    }
+
+    private String deleteLocal(String urlArquivo) {
         try {
-            url = new URL(urlArquivo);
-            key = url.getPath().substring(1);
+            String path = urlArquivo.startsWith("/uploads/") ? urlArquivo.substring(1) : urlArquivo.replaceFirst(".*/uploads/", "uploads/");
+            Path filePath = Paths.get(path).toAbsolutePath().normalize();
+            if (Files.exists(filePath)) {
+                Files.delete(filePath);
+            }
+            return path;
+        } catch (IOException e) {
+            System.out.println("Erro ao deletar imagem local: " + e.getMessage());
+            return null;
+        }
+    }
+
+    private String deleteS3(String urlArquivo) {
+        try {
+            URL url = new URL(urlArquivo);
+            String key = url.getPath().substring(1);
             s3Client.deleteObject(new DeleteObjectRequest(bucketName, key));
+            return key;
         } catch (MalformedURLException e) {
             e.printStackTrace();
+            return null;
         }
-        return key;
     }
 
     private File convertMultiPartFileToFile(MultipartFile file) {

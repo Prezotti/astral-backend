@@ -14,7 +14,6 @@ import java.util.Collection;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario implements UserDetails {
 
@@ -25,6 +24,9 @@ public class Usuario implements UserDetails {
     private String email;
 
     private String senha;
+
+    public Usuario() {
+    }
 
     public Usuario(String email, String senha){
         this.email = email;

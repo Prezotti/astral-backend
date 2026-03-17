@@ -29,6 +29,7 @@ public class SecurityConfigurations {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST, "/login/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/uploads/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/produto").permitAll()
                 .requestMatchers(HttpMethod.GET, "/produtor").permitAll()
                 .requestMatchers(HttpMethod.POST, "/compra").permitAll()

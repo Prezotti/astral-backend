@@ -1,8 +1,8 @@
 cloud:
   aws:
     credentials:
-      access-key: ${AWS_ACCESS_KEY}
-      secret-key: ${AWS_SECRET_KEY}
+      access-key: ${AWS_ACCESS_KEY:placeholder-key}
+      secret-key: ${AWS_SECRET_KEY:placeholder-secret}
     region:
       static: sa-east-1
     stack:
@@ -11,6 +11,8 @@ cloud:
 application:
   bucket:
     name: api-astral
+  storage:
+    local: ${STORAGE_LOCAL:true}
 
 spring:
   servelet:
